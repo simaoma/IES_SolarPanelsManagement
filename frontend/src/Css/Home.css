@@ -1,0 +1,116 @@
+@import "https://unpkg.com/open-props";
+@import 'https://use.fontawesome.com/releases/v5.4.2/css/all.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400');
+
+.home{
+    height: 100vh;
+    background-color: #131418;
+    display: flex;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.welcome-text{
+    position: absolute;
+    width: 70%;
+    height: 50%;
+    margin: 15% 15%;
+    text-align: center;
+}
+.welcome-text h1{
+    text-align: center;
+    color:#ffffff;
+    font-size: 10rem;
+    font-weight: 700;
+    
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem; 
+    margin-top: 30px; 
+  }
+
+  .custom-button {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-6);
+    font-size: var(--font-size-5);
+    color: var(--gray-8);
+    background: var(--gray-0);
+    border: 0;
+    padding: var(--size-4) var(--size-8);
+    transform: translateY(calc(var(--y, 0) * 1%)) scale(var(--scale));
+    transition: transform 0.1s;
+    position: relative;
+  }
+  
+  .custom-button:hover {
+    --y: -10;
+    --scale: 1.1;
+    --border-scale: 1;
+    cursor: pointer;
+  }
+  
+  .custom-button:active {
+    --y: 5%;
+    --scale: 0.9;
+    --border-scale: 0.9, 0.8;
+  }
+  
+  .custom-button:before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--size-3) * -1);
+    border: var(--size-2) solid #f2af13;
+    transform: scale(var(--border-scale, 0));
+    transition: transform 0.125s;
+    
+    --angle-one: 105deg;
+    --angle-two: 290deg;
+    --spread-one: 30deg;
+    --spread-two: 40deg;
+    --start-one: calc(var(--angle-one) - (var(--spread-one) * 0.5));
+    --start-two: calc(var(--angle-two) - (var(--spread-two) * 0.5));
+    --end-one: calc(var(--angle-one) + (var(--spread-one) * 0.5));
+    --end-two: calc(var(--angle-two) + (var(--spread-two) * 0.5));
+    
+    mask: conic-gradient(
+      transparent 0 var(--start-one),
+      #f2af13 var(--start-one) var(--end-one),
+      transparent var(--end-one) var(--start-two),
+      #f2af13 var(--start-two) var(--end-two),
+      transparent var(--end-two)
+    );
+    
+    z-index: -1;
+  }
+
+
+@media (max-width:900px){
+    .welcome-text {
+        width: 100%;
+        height: auto;
+        margin: 30% 0;
+        }
+        .welcome-text h1 {
+        font-size: 30px;
+        }
+
+        .footer{
+          width: 100%;
+          height: auto;
+        }
+}
+
+
+@media (max-width:600px){
+    .welcome-text {
+        width: 100%;
+        height: auto;
+        margin: 50% 0;
+        }
+        .welcome-text h1 {
+        font-size: 30px;
+        }
+}

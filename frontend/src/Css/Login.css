@@ -1,0 +1,23 @@
+* {
+  color: #ffffff;
+}
+
+body {
+  background-color: #222222;
+}
+
+.login-container {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente os filhos */
+  justify-content: center; /* Centraliza horizontalmente os filhos */
+  height: 100vh; /* Define a altura do contêiner pai como 100% da altura da viewport */
+}
+
+.card {
+  background-color: #19191a;
+}
+
+.form, input, label, p{
+  color: white !important;
+}
+
