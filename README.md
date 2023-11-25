@@ -18,3 +18,14 @@
 In this repository you will find our project SolarLink that was made in the context of Introduction to Software Engineering course.
 
 In it, we propose, conceptualize, and implement a solution for a Household Solar grid management system.
+
+
+## **HOW TO RUN** 
+
+
+
+
+To start frontend do in a terminal at the frontend package:
+
+`npm start`
+
