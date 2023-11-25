@@ -1,22 +1,50 @@
-import React from 'react';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import '../Css/Login.css';
-import solarpanelImage from '../Images/solarpanel-login.jpeg';
 import {
   MDBBtn,
-  MDBContainer,
   MDBCard,
   MDBCardBody,
   MDBCardImage,
-  MDBRow,
   MDBCol,
+  MDBContainer,
   MDBIcon,
-  MDBInput
-}
-from 'mdb-react-ui-kit';
+  MDBInput,
+  MDBRow
+} from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { useState } from 'react';
+import '../Css/Login.css';
+import solarpanelImage from '../Images/solarpanel-login.jpeg';
 
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      if (response.ok) {
+        window.location.href = ('/home');
+      } else {
+        throw new Error('Invalid credentials');
+      }
+    } catch (error) {
+      setError('Invalid credentials');
+      console.log('Error logging in:', error);
+    }
+  };
+
+
   return (
     <MDBContainer className="login-container">
 
@@ -36,11 +64,13 @@ const Login = () => {
               </div>
 
               <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Sign into your account</h5>
-
-                <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
-
-              <MDBBtn className="mb-4 px-5" color='warning' size='lg'>Login</MDBBtn>
+                
+                <form onSubmit={handleSubmit}>
+                  <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <MDBBtn type="submit" className="mb-4 px-5" color='warning' size='lg'>Login</MDBBtn>
+                </form>
+                
               <a className="small text-muted" href="#!">Forgot password?</a>
               <p className="mb-5 pb-lg-2" style={{color: '#ffffff'}}>Don't have an account? <a href="./register" style={{color: '#f2af13'}}>Register here</a></p>
 

@@ -1,0 +1,139 @@
+* {
+    color: #ffffff;
+}
+  
+body {
+background-color: #222222;
+}
+
+.stats-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente os filhos */
+    justify-content: center; /* Centraliza horizontalmente os filhos */
+}
+
+.out-card {
+    background-color: #303030;
+    margin-top: 7rem;   
+    margin-bottom: 7rem;  
+    width: 80vw;
+}
+
+.parent {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.div1 { 
+    grid-area: 1 / 1 / 2 / 2; 
+    height: 15rem;
+    border-radius: 10px; /* ou qualquer valor desejado para o raio do canto */
+    overflow: hidden;
+}
+.div2 { 
+    grid-area: 2 / 1 / 3 / 2; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha verticalmente ao centro */
+}
+.div3 {
+    grid-area: 3 / 1 / 4 / 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha verticalmente ao centro */
+}
+.div4 { 
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.div5 { 
+    grid-area: 1 / 3 / 2 / 5; 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas com largura igual */
+    align-items: center;
+}    
+.div10 { 
+    grid-column: 1; 
+    background-color: #d17a23;
+    height: 9rem;
+    width: 9rem;
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+.div11 { 
+    grid-column: 2; 
+    background-color: #1e973e;
+    height: 9rem;
+    width: 9rem;
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+.div12 { 
+    grid-column: 3; 
+    background-color: #6AA9E0;
+    height: 9rem;
+    width: 9rem;
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+.div13 { 
+    grid-column: 4; 
+    background-color: #692DB8;
+    height: 9rem;
+    width: 9rem;
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+
+.div5 p { 
+    margin: 0px;
+}
+
+.icon {
+    height: 5rem;
+    width: 5rem;
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+}
+
+.div6 { 
+    grid-area: 2 / 2 / 4 / 5; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas com largura igual */
+    align-items: center;
+}
+
+.div20 {
+    grid-column: 1; 
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+
+.div21 {
+    grid-column: 2; 
+    margin: 0 auto; /* Isso centralizará os divs horizontalmente */
+    justify-content: center; /* Alinha verticalmente ao centro */
+    align-items: center;
+}
+
+
+
+
+.div7 { grid-area: 4 / 1 / 7 / 5; }
+
+
+.div2 p { 
+    margin: 10px 40px;
+}
+
+.div3 p { 
+    margin: 10px 40px;
+}
