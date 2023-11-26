@@ -22,10 +22,21 @@ In it, we propose, conceptualize, and implement a solution for a Household Solar
 
 ## **HOW TO RUN** 
 
+To start the Docker container do in a terminal:
 
+`docker pull mysql`
 
+`docker run --name solar_panels -e MYSQL_ROOT_PASSWORD=simao2002 -d mysql:latest`
 
-To start frontend do in a terminal at the frontend package:
+Before start Maven Spring-boot, in the demo/src/resources package change the application.properties password to your own root mysql root password.
+
+`spring.datasource.password={{YOUR PASSWORD}}`
+
+To start Maven Spring-boot do in a terminal at the demo package:
+
+`mvn spring-boot:run`
+
+To start Frontend do in a terminal at the frontend package:
 
 `npm start`
 
