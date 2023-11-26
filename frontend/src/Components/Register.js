@@ -14,8 +14,8 @@ import '../Css/Register.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
 
 const Register = () => {
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -49,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <MDBContainer className="register-container"> 
+    <MDBContainer className="register-container">
       <MDBCard className='card'>
         <MDBRow className='g-0'>
           <MDBCol md='6'>
@@ -60,8 +60,8 @@ const Register = () => {
               {/* ... */}
               <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Create your account</h5>
               <form onSubmit={handleSubmit}>
-                <MDBInput wrapperClass='mb-4' label='First Name' id='First name' type='text' size="lg" value={first_name} onChange={(e) => setFirstName(e.target.value)}/>
-                <MDBInput wrapperClass='mb-4' label='Last Name' id='Last name' type='text' size="lg" value={last_name} onChange={(e) => setLastName(e.target.value)}/>
+                <MDBInput wrapperClass='mb-4' label='First Name' id='First name' type='text' size="lg" value={firstname} onChange={(e) => setFirstName(e.target.value)}/>
+                <MDBInput wrapperClass='mb-4' label='Last Name' id='Last name' type='text' size="lg" value={lastname} onChange={(e) => setLastName(e.target.value)}/>
                 <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email' size="lg" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' size="lg" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 <MDBInput wrapperClass='mb-4' label='Confirm password' id='confirmPassword' type='password' size="lg" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
