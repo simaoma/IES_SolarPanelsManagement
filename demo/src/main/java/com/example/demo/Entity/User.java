@@ -30,6 +30,9 @@ public class User {
     @Column(name = "produced_energy")
     private Long producedEnergy;
 
+    @Column(name = "consumed_energy")
+    private Long consumedEnergy;
+
     // Getters and setters for producedEnergy field
     public Long getProducedEnergy() {
         return producedEnergy;
@@ -39,10 +42,22 @@ public class User {
         this.producedEnergy = producedEnergy;
     }
 
+    public Long getConsumedEnergy() {
+        return consumedEnergy;
+    }
+
+    public void setConsumedEnergy(Long consumedEnergy) {
+        this.consumedEnergy = consumedEnergy;
+    }
+
     public User(){}
 
     public String getPassword() {
         return password;
+    }
+
+    public Long getId(){
+        return id;
     }
 
     public String getEmail(){
