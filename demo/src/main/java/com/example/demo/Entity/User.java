@@ -27,6 +27,18 @@ public class User {
     @Column(name = "pass", nullable = false)
     private String password;
 
+    @Column(name = "produced_energy")
+    private Long producedEnergy;
+
+    // Getters and setters for producedEnergy field
+    public Long getProducedEnergy() {
+        return producedEnergy;
+    }
+
+    public void setProducedEnergy(Long producedEnergy) {
+        this.producedEnergy = producedEnergy;
+    }
+
     public User(){}
 
     public String getPassword() {

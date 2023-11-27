@@ -51,4 +51,27 @@ public class UserService {
         // Save the user to the database
         userRepository.save(user);
     }
+
+
+    public Long getProducedEnergy(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user.getProducedEnergy();
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
+
+    public Long getConsumedEnergy(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user.getProducedEnergy();
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
 }
