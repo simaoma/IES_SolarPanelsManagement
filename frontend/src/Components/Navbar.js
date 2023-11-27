@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import "../Css/Navbar.css";
+import { useAuth } from '../Context/AuthContext';
 
 const Navbar = () => {
+  const { isLoggedin, logout } = useAuth();
 
   useEffect(() => {
     const hamburger = document.querySelector(".hamburger");
@@ -45,10 +47,16 @@ const Navbar = () => {
         <ul className="nav-links">
           <li><a href="/">Gestão</a></li>
           <li><a href="/">Relatórios</a></li>
+          {isLoggedin ? (
+            <>
+              <li><button onClick={logout} className="login-button">Logout</button></li>
+            </>
+          ) : (
             <>
               <li><a href="/login" className="login-button">Login</a></li>
               <li><a href="/register" className="login-button2">Register</a></li>
             </>
+          )}
         </ul>
       </nav>
     </div>
