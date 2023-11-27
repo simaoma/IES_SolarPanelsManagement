@@ -37,6 +37,18 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/api/users/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
+        try {
+            Optional<User> user = userService.getUserById(userId);
+            return user.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Failed to fetch user: " + e.getMessage());
+        }
+    }
+
 
     @GetMapping("/users/{userId}/consumed-energy")
     public ResponseEntity<?> getConsumedEnergy(@PathVariable Long userId) {

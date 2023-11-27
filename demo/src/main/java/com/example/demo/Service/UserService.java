@@ -52,6 +52,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
 
     public Long getProducedEnergy(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
