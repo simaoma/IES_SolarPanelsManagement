@@ -4,10 +4,7 @@ from random import randint
 from time import sleep
 import requests
 
-
-USER_FILE = "data/user_info.json"
-
-RIOT_CHANCE = 10 # %
+EVENT_CHANCE = 10 # %
 
 class Simulator():
     
@@ -15,23 +12,23 @@ class Simulator():
         # init user values
         self.user_info = []
 
-    # constric/expand generated data according to msg received
+    # processes the messages that receives
     def processmsg(self, msg):
         jmsg = json.loads(msg)
         print('recv', jmsg)
         msgtype = jmsg['type']
 
         if msgtype in ['delete']:
-            username = jmsg['user']
+            userId = jmsg['userId']
             for user in self.user_info:
-                if user["user"] == username:
+                if user["userId"] == userId:
                     self.user_info.remove(user)
 
         elif msgtype in ['add']:
-            user = jmsg['user']
+            userId = jmsg['userId']
             power = jmsg['power']
             
-            self.user_info.append({"user": user, "power": power, "station": "1210702"})
+            self.user_info.append({"userId": userId, "power": power, "station": "1210702"})
 
             #fazer aqui algo para determinar a estação ou o conjunto de estações
             
@@ -49,7 +46,7 @@ class Simulator():
             for user in self.user_info:
                 station = user['station']
                 power = user['power']
-                name = user['user']
+                userId = user['userId']
                 weather_station = current_weather[station]
                 radi = weather_station["radiacao"]
 
@@ -58,11 +55,10 @@ class Simulator():
                 else:
                     energy = (radi/1000) * (power/1000) # verificar se a formula está correta
 
-                msg = {'type': 'energy'}
-                msg["user"] = name
-                msg["prod"] = energy
-                msg["cons"] = 500
+                msg = {'type': 'production', 'energy': energy, 'userId': userId}
+                messages.append(msg)
 
+                msg = {'type': 'consumption', 'energy': 500, 'userId': userId}
                 messages.append(msg)
             
                 # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
