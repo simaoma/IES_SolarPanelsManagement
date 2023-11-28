@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping("/users/{userId}/consumed-energy")
     public ResponseEntity<?> getConsumedEnergy(@PathVariable Long userId) {
         try {
-            Long consumedEnergy = userService.getConsumedEnergy(userId);
+            Double consumedEnergy = userService.getConsumedEnergy(userId);
             return ResponseEntity.ok(consumedEnergy);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve consumed energy: " + e.getMessage());
@@ -63,7 +63,7 @@ public class UserController {
     @GetMapping("/users/{userId}/produced-energy")
     public ResponseEntity<?> getProducedEnergy(@PathVariable Long userId) {
         try {
-            Long producedEnergy = userService.getProducedEnergy(userId);
+            Double producedEnergy = userService.getProducedEnergy(userId);
             return ResponseEntity.ok(producedEnergy);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve produced energy: " + e.getMessage());
