@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Comms.Sender;
 import com.example.demo.Controller.UserRegisterRequest;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
@@ -16,9 +15,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private Sender sender;
 
     public Optional<User> login(String email, String password) {
 
@@ -50,12 +46,9 @@ public class UserService {
         user.setFirstName(registerRequest.getfirstname());
         user.setLastName(registerRequest.getlastname());
         user.setPassword(registerRequest.getPassword());
-        user.setConsumedEnergy(0.0);
-        user.setProducedEnergy(0.0);
 
         // Save the user to the database
         userRepository.save(user);
-        sender.add(user);
     }
 
     public Optional<User> getUserById(Long userId) {
@@ -64,53 +57,5 @@ public class UserService {
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
-    }
-
-    public Double getProducedEnergy(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user.getProducedEnergy();
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public Double getConsumedEnergy(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user.getConsumedEnergy();
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public void setProducedEnergy(Long userId, Double energy) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setProducedEnergy(energy);
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public void setConsumedEnergy(Long userId, Double energy) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setConsumedEnergy(energy);
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    
+    } 
 }

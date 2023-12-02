@@ -27,28 +27,8 @@ public class User {
     @Column(name = "pass", nullable = false)
     private String password;
 
-    @Column(name = "produced_energy")
-    private Double producedEnergy;
-
-    @Column(name = "consumed_energy")
-    private Double consumedEnergy;
-
-    // Getters and setters for producedEnergy field
-    public Double getProducedEnergy() {
-        return producedEnergy;
-    }
-
-    public void setProducedEnergy(Double producedEnergy) {
-        this.producedEnergy += producedEnergy/100;
-    }
-
-    public Double getConsumedEnergy() {
-        return consumedEnergy;
-    }
-
-    public void setConsumedEnergy(Double consumedEnergy) {
-        this.consumedEnergy = consumedEnergy;
-    }
+    @Column(name = "type")
+    private String type;
 
     public User(){}
 
