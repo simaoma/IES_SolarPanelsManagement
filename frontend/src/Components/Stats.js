@@ -45,7 +45,7 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
     
             // Clear interval on component unmount
             return () => clearInterval(interval);
-        }, []);        
+        }, []);
 
         const data1 = [
         { name: "Gerado", value: 2 },
@@ -99,7 +99,7 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                         <MDBIcon size="3x" icon="bolt" style={{marginBottom: '10px'}}/>
                         <p></p>
                         <p>Produção Hoje</p>
-                        <p>{producedToday.toFixed(3)} kWh</p>
+                        <p>{producedToday.toFixed(3)} kW</p>
                     </MDBCard>
                     <MDBCard className='div11'>
                         <MDBIcon size="3x" icon="coins" style={{marginBottom: '10px'}}/>

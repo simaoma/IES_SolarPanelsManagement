@@ -64,11 +64,11 @@ class Simulator():
                     messages.append(msg)
                     user['prod'] = energy
 
-                if energy != user['consm']:
+                if consum != user['cons']:
 
                     msg = {'type': 'consumption', 'energy': consum, 'userId': userId}
                     messages.append(msg)
-                    user['consum'] = consum
+                    user['cons'] = consum
                 # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
         else:
             if self.empty:

@@ -66,7 +66,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-
     public Double getProducedEnergy(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         
