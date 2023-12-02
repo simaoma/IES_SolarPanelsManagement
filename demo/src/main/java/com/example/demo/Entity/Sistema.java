@@ -1,10 +1,17 @@
 package com.example.demo.Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,7 +20,11 @@ public class Sistema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_sis;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id") // This column will hold the foreign key to User
+    private User user;
 
     @Column(name = "morada", nullable = false)
     private String morada;
@@ -27,6 +38,12 @@ public class Sistema {
     @Column(name = "consumed_energy")
     private Double consumedEnergy;
 
+    @OneToMany(mappedBy = "alarmes", cascade = CascadeType.ALL)
+    private List<Alarmes> alarmes;
+
+    @OneToMany(mappedBy = "registos", cascade = CascadeType.ALL)
+    private List<Registos> registos;
+
      // Getters and setters for producedEnergy field
      public Double getProducedEnergy() {
         return producedEnergy;
@@ -37,7 +54,7 @@ public class Sistema {
     }
 
     public Long getId(){
-        return id;
+        return id_sis;
     }
 
     public Double getConsumedEnergy() {

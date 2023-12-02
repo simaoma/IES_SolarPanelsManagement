@@ -1,10 +1,14 @@
 package com.example.demo.Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,6 +33,9 @@ public class User {
 
     @Column(name = "type")
     private String type;
+
+    @OneToMany(mappedBy = "sistemas", cascade = CascadeType.ALL)
+    private List<Sistema> sistemas;
 
     public User(){}
 
