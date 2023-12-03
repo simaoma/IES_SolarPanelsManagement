@@ -10,7 +10,7 @@ class Receiver():
         self.connclose()
 
     def conninit(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
         self.channel = self.connection.channel()
 
         self.channel.queue_declare(queue=self.queue)

@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from random import randint
+
 from time import sleep
 import requests
 
@@ -11,6 +12,7 @@ class Simulator():
     def __init__(self):
         # init user values
         self.user_info = []
+        self.empty = True
 
     # processes the messages that receives
     def processmsg(self, msg):
@@ -28,7 +30,7 @@ class Simulator():
             userId = jmsg['userId']
             power = jmsg['power']
             
-            self.user_info.append({"userId": userId, "power": power, "station": "1210702"})
+            self.user_info.append({"userId": userId, "power": power, "station": "1210702", "prod": 0, "cons": 0})
 
             #fazer aqui algo para determinar a estação ou o conjunto de estações
             
@@ -51,21 +53,28 @@ class Simulator():
                 radi = weather_station["radiacao"]
 
                 if radi == -99.0:
-                    energy = 0
+                    energy = 0.0
                 else:
                     energy = (radi/1000) * (power/1000) # verificar se a formula está correta
+                    consum = 500
 
-                msg = {'type': 'production', 'energy': energy, 'userId': userId}
-                messages.append(msg)
+                if energy != user['prod']:
 
-                msg = {'type': 'consumption', 'energy': 500, 'userId': userId}
-                messages.append(msg)
-            
+                    msg = {'type': 'production', 'energy': energy, 'userId': userId}
+                    messages.append(msg)
+                    user['prod'] = energy
+
+                if consum != user['cons']:
+
+                    msg = {'type': 'consumption', 'energy': consum, 'userId': userId}
+                    messages.append(msg)
+                    user['cons'] = consum
                 # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
         else:
-            msg = {'type': 'empty'}
-            messages.append(msg)
-
+            if self.empty:
+                msg = {'type': 'empty'}
+                messages.append(msg)
+                self.empty = False
         return messages
        
     def get_stations(self):
