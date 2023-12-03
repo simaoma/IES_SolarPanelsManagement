@@ -28,25 +28,25 @@ public class User {
     private String password;
 
     @Column(name = "produced_energy")
-    private Long producedEnergy;
+    private Double producedEnergy;
 
     @Column(name = "consumed_energy")
-    private Long consumedEnergy;
+    private Double consumedEnergy;
 
     // Getters and setters for producedEnergy field
-    public Long getProducedEnergy() {
+    public Double getProducedEnergy() {
         return producedEnergy;
     }
 
-    public void setProducedEnergy(Long producedEnergy) {
+    public void setProducedEnergy(Double producedEnergy) {
         this.producedEnergy = producedEnergy;
     }
 
-    public Long getConsumedEnergy() {
+    public Double getConsumedEnergy() {
         return consumedEnergy;
     }
 
-    public void setConsumedEnergy(Long consumedEnergy) {
+    public void setConsumedEnergy(Double consumedEnergy) {
         this.consumedEnergy = consumedEnergy;
     }
 

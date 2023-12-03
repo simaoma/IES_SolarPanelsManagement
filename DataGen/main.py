@@ -1,11 +1,10 @@
 from threading import Thread
 from time import sleep
 
-import Simulator
+from Simulator import Simulator
 from Comms import *
 
 def main():
-
     sim = Simulator()
     receiver = Receiver()
     sender = Sender()
