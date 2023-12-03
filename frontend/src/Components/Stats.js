@@ -1,26 +1,52 @@
-import React from 'react';
+import { Button, ButtonGroup } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import {
+    MDBCard,
+    MDBCardImage,
+    MDBIcon
+} from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { useEffect, useState } from 'react';
+import { Cell, Legend, Pie, PieChart } from 'recharts';
 import '../Css/Stats.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBRow,
-  MDBCol,
-  MDBIcon,
-  MDBInput
-}
-from 'mdb-react-ui-kit';
 
 
     const Stats = () => {
+
+        const [producedToday, setProducedToday] = useState(0);
+        const [totalProduced, setTotalProduced] = useState(0);
+        const userId = 2; // Replace with the actual user ID
+
+
+        // Fetch produced energy for today
+        const fetchProducedToday = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:8080/users/${userId}/produced-energy`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducedToday(data);
+                } else {
+                    console.error('Failed to fetch produced energy for today:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching produced energy for today:', error);
+            }
+        };
+    
+        useEffect(() => {
+            // Fetch data initially
+            fetchProducedToday();
+    
+            // Set interval to fetch data periodically
+            const interval = setInterval(() => {
+                fetchProducedToday();
+            }, 1000); // Fetch every 60 seconds (adjust as needed)
+    
+            // Clear interval on component unmount
+            return () => clearInterval(interval);
+        }, []);
+
         const data1 = [
         { name: "Gerado", value: 2 },
         { name: "Resto", value: 5 }
@@ -73,13 +99,13 @@ from 'mdb-react-ui-kit';
                         <MDBIcon size="3x" icon="bolt" style={{marginBottom: '10px'}}/>
                         <p></p>
                         <p>Produção Hoje</p>
-                        <p>000.00 kW/h</p>
+                        <p>{producedToday.toFixed(3)} kW</p>
                     </MDBCard>
                     <MDBCard className='div11'>
                         <MDBIcon size="3x" icon="coins" style={{marginBottom: '10px'}}/>
                         <p></p>
                         <p>Receita Hoje</p>
-                        <p>0.00 EUR</p>
+                        <p>{(producedToday*0.1).toFixed(2)} €</p>
                     </MDBCard>
                     <MDBCard className='div12'>
                         <MDBIcon size="3x" icon="bolt" style={{marginBottom: '10px'}}/>

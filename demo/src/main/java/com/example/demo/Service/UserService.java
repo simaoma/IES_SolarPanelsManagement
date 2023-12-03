@@ -50,8 +50,6 @@ public class UserService {
         user.setFirstName(registerRequest.getfirstname());
         user.setLastName(registerRequest.getlastname());
         user.setPassword(registerRequest.getPassword());
-        user.setConsumedEnergy(0.0);
-        user.setProducedEnergy(0.0);
 
         // Save the user to the database
         userRepository.save(user);
@@ -64,52 +62,5 @@ public class UserService {
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
-    }
-
-
-    public Double getProducedEnergy(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user.getProducedEnergy();
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public Double getConsumedEnergy(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user.getConsumedEnergy();
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public void setProducedEnergy(Long userId, Double energy) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setProducedEnergy(energy);
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    public void setConsumedEnergy(Long userId, Double energy) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setConsumedEnergy(energy);
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
-        }
-    }
-
-    
+    } 
 }

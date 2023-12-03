@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   MDBBtn,
   MDBCard,
@@ -11,6 +10,7 @@ import {
   MDBRow
 } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { useState } from 'react';
 import { useAuth } from '../Context/AuthContext';
 import '../Css/Login.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
@@ -28,7 +28,7 @@ const Login = () => {
       // Use the login function from useAuth
       await login({ email, password });
       // Redirect after successful login
-      window.location.href = ('/');
+      window.location.href = ('/stats');
     } catch (error) {
       setError('Invalid credentials');
       console.log('Error logging in:', error);

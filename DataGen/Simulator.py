@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta
 from random import randint
 
+
 from time import sleep
 import requests
 
@@ -12,6 +13,7 @@ class Simulator():
     def __init__(self):
         # init user values
         self.user_info = []
+        self.empty = True
         self.empty = True
 
     # processes the messages that receives
@@ -30,6 +32,7 @@ class Simulator():
             userId = jmsg['userId']
             power = jmsg['power']
             
+            self.user_info.append({"userId": userId, "power": power, "station": "1210702", "prod": 0, "cons": 0})
             self.user_info.append({"userId": userId, "power": power, "station": "1210702", "prod": 0, "cons": 0})
 
             #fazer aqui algo para determinar a estação ou o conjunto de estações
@@ -64,11 +67,11 @@ class Simulator():
                     messages.append(msg)
                     user['prod'] = energy
 
-                if energy != user['consm']:
+                if consum != user['cons']:
 
                     msg = {'type': 'consumption', 'energy': consum, 'userId': userId}
                     messages.append(msg)
-                    user['consum'] = consum
+                    user['cons'] = consum
                 # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
         else:
             if self.empty:
