@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Comms.Sender;
 import com.example.demo.Controller.UserRegisterRequest;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
@@ -16,9 +15,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private Sender sender;
 
     public Optional<User> login(String email, String password) {
 
@@ -53,7 +49,6 @@ public class UserService {
 
         // Save the user to the database
         userRepository.save(user);
-        sender.add(user);
     }
 
     public Optional<User> getUserById(Long userId) {
