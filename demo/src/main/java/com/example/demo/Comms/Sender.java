@@ -19,7 +19,7 @@ public class Sender {
         jmsg.put("sistemId", sistema.getId());
         jmsg.put("power", sistema.getPotencia());
         jmsg.put("location", sistema.getMorada());
-        jmsg.put("stattion", sistema.getStations());
+        jmsg.put("station", sistema.getStations());
         send(jmsg);
     }
 
@@ -36,7 +36,7 @@ public class Sender {
         jmsg.put("sistemId", sistema.getId());
         jmsg.put("power", sistema.getPotencia());
         jmsg.put("location", sistema.getMorada());
-        jmsg.put("stattion", sistema.getStations());
+        jmsg.put("station", sistema.getStations());
         send(jmsg);
     }
 

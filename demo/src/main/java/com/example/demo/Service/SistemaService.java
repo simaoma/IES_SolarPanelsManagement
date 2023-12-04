@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.Comms.Sender;
 import com.example.demo.Controller.UserRegisterRequest;
+import com.example.demo.Entity.Registos;
 import com.example.demo.Entity.Sistema;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.SistemaRepository;
@@ -17,6 +18,9 @@ public class SistemaService {
     
     @Autowired
     private SistemaRepository sistemaRepository;
+
+    @Autowired
+    private RegistoService registoService;
 
     @Autowired
     private Sender sender;
@@ -66,27 +70,59 @@ public class SistemaService {
         }
     }
 
-    //define a energia q está a ser produzida no momento
-    public void setProducedEnergy(Long id, Double energy) {
+    //define a energia q está a ser produzida no momento e dá update á tabela dos registos
+    public void setProducedEnergy(Long id, Double energy, String time) throws Exception {
         Optional<Sistema> sistemaOptional = sistemaRepository.findById(id);
         
         if (sistemaOptional.isPresent()) {
+            
             Sistema sistema = sistemaOptional.get();
             sistema.setProducedEnergy(energy);
             sistemaRepository.save(sistema);
+
+            Long regId = registoService.getCurrentEnergy(sistema, "Prod");
+            if(regId != -1){
+                Registos registo = registoService.getRegById(regId);
+                registo.setTime_final(time);
+                registoService.updateRegisto(registo);
+            }
+
+            Registos newReg = new Registos();
+            newReg.setSistema(sistema);
+            newReg.setEnergia(energy);
+            newReg.setTime_init(time);
+            newReg.setType("Prod");
+            registoService.createRegisto(newReg);
+
         } else {
             throw new RuntimeException("System not found with ID: " + id);
         }
     }
 
-    //define a energia q está a ser consumida no momento
-    public void setConsumedEnergy(Long id, Double energy) {
+    //define a energia q está a ser consumida no momento e dá update á tabela dos registos
+    public void setConsumedEnergy(Long id, Double energy, String time) throws Exception {
         Optional<Sistema> sistemaOptional = sistemaRepository.findById(id);
         
         if (sistemaOptional.isPresent()) {
             Sistema sistema = sistemaOptional.get();
             sistema.setConsumedEnergy(energy);
             sistemaRepository.save(sistema);
+
+            Long regId = registoService.getCurrentEnergy(sistema, "Cons");
+            if(regId != -1){
+                Registos registo = registoService.getRegById(regId);
+                registo.setTime_final(time);
+                registoService.updateRegisto(registo);
+            }
+            
+            Registos newReg = new Registos();
+            newReg.setSistema(sistema);
+            newReg.setEnergia(energy);
+            newReg.setTime_init(time);
+            newReg.setType("Cons");
+
+            registoService.createRegisto(newReg);
+
         } else {
             throw new RuntimeException("System not found with ID: " + id);
         }
@@ -111,5 +147,10 @@ public class SistemaService {
 
     public List<Sistema> getAllSistemas(){
         return sistemaRepository.findAll();
+    }
+
+    public Sistema getSisById(Long sisId){
+        Optional<Sistema> optionalSis = sistemaRepository.findById(sisId);
+        return optionalSis.get();
     }
 }

@@ -7,7 +7,7 @@ from math import radians, sin, cos, sqrt, atan2
 import numpy as np
 
 EVENT_CHANCE = 10 # %
-MEDIAN_CONSUMPTION = 23423
+MEDIAN_CONSUMPTION = 23423 # mudar isto
 HOURS_DAY = 24
 
 class Simulator():
@@ -19,6 +19,7 @@ class Simulator():
         self.station_info = self.get_stations()
         self.messages = []
         self.refresh_time = datetime.now()
+    
     # processes the messages that receives
     def processmsg(self, msg):
         jmsg = json.loads(msg)
@@ -40,7 +41,7 @@ class Simulator():
             if station == []:
                 station = self.findStations(location, 3)
                 
-                msg = {'type': 'added', 'Sistemid': sisId, 'stationId': station}
+                msg = {'type': 'added', 'SistemId': sisId, 'station': station}
                 self.messages.append(msg)
 
             self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': 0.0, 'cons': 0.0})
@@ -54,9 +55,8 @@ class Simulator():
                         sistem['location'] = jmsg['location']
                         station = self.findStations[jmsg['location'],3]
                         sistem['station'] = station
-                        msg = {'type': 'added', 'Sistemid': sisId, 'stationId': station}
+                        msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                         self.messages.append(msg)
-            
 
     # main loop method
     def run(self):      
@@ -68,10 +68,12 @@ class Simulator():
             self.messages.clear()
         
         if self.sistem_info != []:
-            consum_bool = False
+            
             time_stamp = self.time_stamp()
             weather = self.get_weather()
             current_weather = weather[time_stamp]
+            
+            consum_bool = False
             if datetime.now() > self.refresh_time:
                 consum_bool = True
                 self.refresh_time = datetime.now() + timedelta(minutes=30)
@@ -82,8 +84,8 @@ class Simulator():
                 sisId = sistem['sistemId']
                 
                 weather_station = []
-                for stationid in station:
-                    weather_station.append(current_weather[stationid])
+                for stationId in station:
+                    weather_station.append(current_weather[stationId])
                 
                 radi = -99.0
                 for weather in weather_station: 
@@ -96,20 +98,15 @@ class Simulator():
                 else:
                     energy = (radi/1000) * (power/1000) # verificar se a formula está correta
                 
-                
-                
                 if energy != sistem['prod']:
-
-                    msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': self.time_stamp(False)}
+                    msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                     messages.append(msg)
                     sistem['prod'] = energy
 
                 if consum_bool:
                     consum = MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY))
-
                     if consum != sistem['cons']:
-
-                        msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': self.time_stamp(False)}
+                        msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                         messages.append(msg)
                         sistem['cons'] = consum
 
@@ -123,7 +120,7 @@ class Simulator():
         return messages
     
     def findStations(self, location, n_stations):
-        # IPMA API endpoint for weather observation 
+        #  
         api_url = f'https://maps.googleapis.com/maps/api/geocode/json?address={location}&key=AIzaSyCCtUQRbEfg0pC0YGegdHFK0aNkrlAjG0c'
         
         stations_lst = []
@@ -194,14 +191,11 @@ class Simulator():
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def time_stamp(self, version=True):
+    def time_stamp(self):
         current_datetime = datetime.now()
-        if version:
-            prev_hour_datetime = current_datetime - timedelta(hours=1)
-            round_datetime = prev_hour_datetime.replace(second=0, microsecond=0, minute=0)
-            form_datetime = round_datetime.strftime("%Y-%m-%dT%H:%M")
-        else:
-            form_datetime = current_datetime.strftime("%Y-%m-%dT%H:%M")
+        prev_hour_datetime = current_datetime - timedelta(hours=1)
+        round_datetime = prev_hour_datetime.replace(second=0, microsecond=0, minute=0)
+        form_datetime = round_datetime.strftime("%Y-%m-%dT%H:%M")
         return form_datetime
     
     def distance_to_station(self,coord1, coord2):
