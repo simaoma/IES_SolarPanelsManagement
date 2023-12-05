@@ -5,7 +5,6 @@ from Simulator import Simulator
 from Comms import *
 
 def main():
-
     sim = Simulator()
     receiver = Receiver()
     sender = Sender()

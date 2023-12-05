@@ -11,7 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "registos")
 public class Registos {
@@ -22,16 +30,19 @@ public class Registos {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sis")
-    private User user;
+    private Sistema sistema;
 
     @Column(name = "time_stamp_inicial", nullable = false, unique = true)
-    private Timestamp time_stamp_inicial;
+    private String time_init;
 
-    @Column(name = "time_stamp_final", nullable = false, unique = true)
-    private Timestamp time_stamp_final;
+    @Column(name = "time_stamp_final", unique = true)
+    private String time_final;
 
-    @Column(name = "energia_produzida", nullable = false, unique = true)
-    private String energia_produzida;
+    @Column(name = "energia", nullable = false)
+    private Double energia;
+
+    @Column(name = "tipo", nullable = false)
+    private String type;
 }
 
 

@@ -1,10 +1,13 @@
 package com.example.demo.Comms;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 import javax.management.relation.RelationNotFoundException;
 
+import org.apache.logging.log4j.util.TriConsumer;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ public class Receiver {
         switch (type) {
             case "empty":
                 // envia toda a informação necessaria de tds os users registados
-                List<Sistema> sistema_List = sistemaService.getAllUsers();
+                List<Sistema> sistema_List = sistemaService.getAllSistemas();
                 for (Sistema sistema : sistema_List) {
                     sender.addSistema(sistema);
                 }
@@ -44,6 +47,9 @@ public class Receiver {
             case "consumption":
                 handleEnergyMessage(jmsg, sistemaService::setConsumedEnergy);
                 break;
+            case "added":
+                handleStationsMessage(jmsg, sistemaService::setStations);
+                break;
     
             default:
                 System.err.println("Couldn't read message type.");
@@ -51,17 +57,44 @@ public class Receiver {
         }
     }
     
-    private void handleEnergyMessage(JSONObject jmsg, BiConsumer<Long, Double> energySetter) {
+    private void handleEnergyMessage(JSONObject jmsg, TriConsumer<Long, Double, String> energySetter) {
         Object energyObj = jmsg.get("energy");
-        Object userIdObj = jmsg.get("id");
-    
-        if (energyObj instanceof Number && userIdObj instanceof Number) {
+        Object userIdObj = jmsg.get("sistemId");
+        Object timeObj = jmsg.get("time");
+
+        if (energyObj instanceof Number && userIdObj instanceof Number && timeObj instanceof String) {
             Number energyNum = (Number) energyObj;
             Number userIdNum = (Number) userIdObj;
-            energySetter.accept(userIdNum.longValue(), energyNum.doubleValue());
+            String timeString = (String) timeObj;
+            energySetter.accept(userIdNum.longValue(), energyNum.doubleValue(), timeString);
         } else {
-            System.err.println("Invalid types for energy or id in message");
+            System.err.println("Invalid types for energy, id, or time in message");
         }
     }
+
+    private void handleStationsMessage(JSONObject jmsg, BiConsumer<Long, List<String>> stationsSetter) {
+        Object stationsObj = jmsg.get("station");
+        Object userIdObj = jmsg.get("sistemId");
+
+        if (stationsObj instanceof JSONArray && userIdObj instanceof Number) {
+            JSONArray stationsArray = (JSONArray) stationsObj;
+            Number userIdNum = (Number) userIdObj;
+
+            List<String> stationsList = new ArrayList<>();
+            for (Object station : stationsArray) {
+                if (station instanceof String) {
+                    stationsList.add((String) station);
+                } else {
+                    System.err.println("Invalid type for station in message");
+                    return; // Stop processing if an invalid type is encountered
+                }
+            }
+
+            stationsSetter.accept(userIdNum.longValue(), stationsList);
+        } else {
+            System.err.println("Invalid types for stations or id in message");
+        }
+    }
+
     
 }

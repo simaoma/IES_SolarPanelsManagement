@@ -30,7 +30,10 @@ public class Sistema {
     private String morada;
 
     @Column(name = "potencia", nullable = false)
-    private String firstName;
+    private Integer potencia;
+
+    @Column(name = "estações")
+    private List<String> stations;
 
     @Column(name = "produced_energy")
     private Double producedEnergy;
@@ -64,4 +67,29 @@ public class Sistema {
     public void setConsumedEnergy(Double consumedEnergy) {
         this.consumedEnergy = consumedEnergy;
     }
+
+    public void setMorada(String morada){
+        this.morada = morada;
+    }
+
+    public void setPotencia(Integer potencia){
+        this.potencia = potencia;
+    }
+
+    public String getMorada(){
+        return morada;
+    }
+
+    public Integer getPotencia(){
+        return potencia;
+    }
+
+    public void setStations(List<String> stations) {
+        this.stations = stations;
+    }
+
+    public List<String> getStations(){
+        return stations;
+    }
+    
 }
