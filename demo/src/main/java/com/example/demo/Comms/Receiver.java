@@ -41,11 +41,25 @@ public class Receiver {
                 break;
     
             case "production":
-                handleEnergyMessage(jmsg, sistemaService::setProducedEnergy);
+                handleEnergyMessage(jmsg, (k, v, s) -> {
+                    try {
+                        sistemaService.setProducedEnergy(k, v, s);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
                 break;
     
             case "consumption":
-                handleEnergyMessage(jmsg, sistemaService::setConsumedEnergy);
+                handleEnergyMessage(jmsg, (k, v, s) -> {
+                    try {
+                        sistemaService.setConsumedEnergy(k, v, s);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
                 break;
             case "added":
                 handleStationsMessage(jmsg, sistemaService::setStations);
