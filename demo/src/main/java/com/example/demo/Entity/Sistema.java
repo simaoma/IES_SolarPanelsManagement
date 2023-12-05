@@ -41,10 +41,10 @@ public class Sistema {
     @Column(name = "consumed_energy")
     private Double consumedEnergy;
 
-    @OneToMany(mappedBy = "alarmes", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Alarmes> alarmes;
 
-    @OneToMany(mappedBy = "registos", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Registos> registos;
 
      // Getters and setters for producedEnergy field

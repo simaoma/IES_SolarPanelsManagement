@@ -29,6 +29,6 @@ public class Alarmes {
     @Column(name = "condicao", nullable = false, unique = true)
     private String condicao;
 
-    @OneToMany(mappedBy = "notificacoes", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "alarme", cascade = CascadeType.ALL) //
     private List<Notificacao> notificacoes;
 }

@@ -34,7 +34,7 @@ public class User {
     @Column(name = "type")
     private String type;
 
-    @OneToMany(mappedBy = "sistemas", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Sistema> sistemas;
 
     public User(){}
