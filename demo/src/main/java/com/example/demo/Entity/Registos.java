@@ -32,10 +32,10 @@ public class Registos {
     @JoinColumn(name = "id_sis")
     private Sistema sistema;
 
-    @Column(name = "time_stamp_inicial", nullable = false, unique = true)
+    @Column(name = "time_stamp_inicial", nullable = false, unique = false)
     private String time_init;
 
-    @Column(name = "time_stamp_final", unique = true)
+    @Column(name = "time_stamp_final", unique = false)
     private String time_final;
 
     @Column(name = "energia", nullable = false)

@@ -39,11 +39,10 @@ class Simulator():
             station = jmsg['station']
             
             if station == []:
-                station = self.findStations(location, 3)
-                
-                msg = {'type': 'added', 'SistemId': sisId, 'station': station}
+                for stations_info in self.findStations(location, 3):
+                    station.append(stations_info)          
+                msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                 self.messages.append(msg)
-
             self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': 0.0, 'cons': 0.0})
         
         elif msgtype in ['modify']:
@@ -57,6 +56,9 @@ class Simulator():
                         sistem['station'] = station
                         msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                         self.messages.append(msg)
+
+        elif msgtype in ['empty']:
+            self.empty = True
 
     # main loop method
     def run(self):      
@@ -145,8 +147,11 @@ class Simulator():
             stations_lst.append({'dist': self.distance_to_station([coord_lat,coord_lon],[stations['lat'],stations['lon']]), 'id': stations['id']})
 
         stations_lst.sort(key=lambda x: x['dist'])
-
-        return [stations_lst[:n_stations]]
+        lst = []
+        for jsonObject in stations_lst[:n_stations]:
+            lst.append(str(jsonObject['id']))
+        
+        return lst
 
     def get_stations(self):
         # IPMA API endpoint for weather stations 
@@ -167,7 +172,7 @@ class Simulator():
         
         for station in data:
             lon, lat = station['geometry']['coordinates']
-            stationId = station['geometry']['properties']['idEstação']
+            stationId = station['properties']['idEstacao']
 
             lst_info.append({'lat': lat, 'lon':lon, 'id': stationId})
 
@@ -218,6 +223,7 @@ class Simulator():
     def generate_consumption_pattern(self,hours_in_a_day):
         time = np.arange(0, hours_in_a_day, 1)
         pattern = np.cos(2 * np.pi * time / hours_in_a_day) + np.random.normal(scale=0.2, size=hours_in_a_day)
-        return pattern
+        value = pattern[randint(0,len(pattern))]
+        return abs(value)
 
 

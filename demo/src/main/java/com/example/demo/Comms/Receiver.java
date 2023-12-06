@@ -35,6 +35,9 @@ public class Receiver {
             case "empty":
                 // envia toda a informação necessaria de tds os users registados
                 List<Sistema> sistema_List = sistemaService.getAllSistemas();
+                if (sistema_List.isEmpty()){
+                    sender.Empty();
+                }
                 for (Sistema sistema : sistema_List) {
                     sender.addSistema(sistema);
                 }

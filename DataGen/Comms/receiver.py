@@ -2,7 +2,7 @@ import pika
 
 class Receiver():
     def __init__(self):
-        self.queue = 'backend'
+        self.queue = 'backend.v3'
         
         self.conninit()
 

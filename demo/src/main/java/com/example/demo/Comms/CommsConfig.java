@@ -7,11 +7,11 @@ import org.springframework.amqp.core.Queue;
 
 @Configuration
 public class CommsConfig {
-    public static final String RECV_QUEUE = "datagen";
+    public static final String RECV_QUEUE = "datagen.v3";
     
     public static final String SEND_EXCHANGE = "";
-    public static final String SEND_QUEUE = "backend";
-    public static final String SEND_ROUTING_KEY = "backend";
+    public static final String SEND_QUEUE = "backend.v3";
+    public static final String SEND_ROUTING_KEY = "backend.v3";
 
     @Bean Queue recv_queue() {
         return new Queue(RECV_QUEUE, false);

@@ -3,7 +3,7 @@ import pika
 
 class Sender():
     def __init__(self):
-        self.queue = 'datagen'
+        self.queue = 'datagen.v3'
 
         self.conninit()
 
