@@ -41,11 +41,11 @@ public class Receiver {
                 break;
     
             case "production":
-                handleEnergyMessage(jmsg, sistemaService::setProducedEnergy);
+                //handleEnergyMessage(jmsg, sistemaService::setProducedEnergy);
                 break;
     
             case "consumption":
-                handleEnergyMessage(jmsg, sistemaService::setConsumedEnergy);
+                //handleEnergyMessage(jmsg, sistemaService::setConsumedEnergy);
                 break;
             case "added":
                 handleStationsMessage(jmsg, sistemaService::setStations);
