@@ -39,12 +39,11 @@ class Simulator():
             station = jmsg['station']
             
             if station == []:
-                station = self.findStations(location, 3)
-                
-                msg = {'type': 'added', 'SistemId': sisId, 'station': station}
+                for stations_info in self.findStations(location, 3):
+                    station.append(stations_info)          
+                msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                 self.messages.append(msg)
-
-            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': 0.0, 'cons': 0.0})
+            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': -1, 'cons': -1})
         
         elif msgtype in ['modify']:
             sisId = jmsg['sistemId']
@@ -58,6 +57,9 @@ class Simulator():
                         msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                         self.messages.append(msg)
 
+        elif msgtype in ['empty']:
+            self.empty = True
+
     # main loop method
     def run(self):      
         messages = []
@@ -67,50 +69,49 @@ class Simulator():
                 messages.append(msg)
             self.messages.clear()
         
-        if self.sistem_info != []:
-            
-            time_stamp = self.time_stamp()
-            weather = self.get_weather()
-            current_weather = weather[time_stamp]
-            
+        if self.sistem_info != []:          
             consum_bool = False
             if datetime.now() > self.refresh_time:
                 consum_bool = True
-                self.refresh_time = datetime.now() + timedelta(minutes=30)
+                self.refresh_time = datetime.now() + timedelta(minutes=20)
                 
-            for sistem in self.sistem_info:
-                station = sistem['station']
-                power = sistem['power']
-                sisId = sistem['sistemId']
-                
-                weather_station = []
-                for stationId in station:
-                    weather_station.append(current_weather[stationId])
-                
-                radi = -99.0
-                for weather in weather_station: 
-                    if weather["radiacao"] != -99.0:
-                        radi = weather["radiacao"]
-                        break
+            time_stamp = self.time_stamp()
+            weather = self.get_weather()
+            if time_stamp in weather:
+                current_weather = weather[time_stamp]
+                for sistem in self.sistem_info:
+                    station = sistem['station']
+                    power = sistem['power']
+                    sisId = sistem['sistemId']
+                    
+                    weather_station = []
+                    for stationId in station:
+                        weather_station.append(current_weather[stationId])
+                    
+                    radi = -99.0
+                    for weather in weather_station: 
+                        if weather["radiacao"] != -99.0:
+                            radi = weather["radiacao"]
+                            break
 
-                if radi == -99.0:
-                    energy = 0.0
-                else:
-                    energy = (radi/1000) * (power/1000) # verificar se a formula está correta
-                
-                if energy != sistem['prod']:
-                    msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-                    messages.append(msg)
-                    sistem['prod'] = energy
-
-                if consum_bool:
-                    consum = MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY))
-                    if consum != sistem['cons']:
-                        msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                    if radi == -99.0:
+                        energy = 0.0
+                    else:
+                        energy = (radi/1000) * (power/1000) # verificar se a formula está correta
+                    
+                    if energy != sistem['prod']:
+                        msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                         messages.append(msg)
-                        sistem['cons'] = consum
+                        sistem['prod'] = energy
 
-                # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
+                    if consum_bool:
+                        consum = MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY))
+                        if consum != sistem['cons']:
+                            msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                            messages.append(msg)
+                            sistem['cons'] = consum
+
+                    # adicionar a possibilidade de acontecer alguma cena que n tem a ver com a api
         else:
             if self.empty:
                 msg = {'type': 'empty'}
@@ -145,8 +146,11 @@ class Simulator():
             stations_lst.append({'dist': self.distance_to_station([coord_lat,coord_lon],[stations['lat'],stations['lon']]), 'id': stations['id']})
 
         stations_lst.sort(key=lambda x: x['dist'])
-
-        return [stations_lst[:n_stations]]
+        lst = []
+        for jsonObject in stations_lst[:n_stations]:
+            lst.append(str(jsonObject['id']))
+        
+        return lst
 
     def get_stations(self):
         # IPMA API endpoint for weather stations 
@@ -167,7 +171,7 @@ class Simulator():
         
         for station in data:
             lon, lat = station['geometry']['coordinates']
-            stationId = station['geometry']['properties']['idEstação']
+            stationId = station['properties']['idEstacao']
 
             lst_info.append({'lat': lat, 'lon':lon, 'id': stationId})
 
@@ -188,6 +192,7 @@ class Simulator():
             else:
                 # Print an error message if the request was not successful
                 print(f"Error: {response.status_code}")
+                return {}
         except Exception as e:
             print(f"An error occurred: {e}")
 
@@ -218,6 +223,7 @@ class Simulator():
     def generate_consumption_pattern(self,hours_in_a_day):
         time = np.arange(0, hours_in_a_day, 1)
         pattern = np.cos(2 * np.pi * time / hours_in_a_day) + np.random.normal(scale=0.2, size=hours_in_a_day)
-        return pattern
+        value = pattern[randint(0,len(pattern)-1)]
+        return abs(value)
 
 

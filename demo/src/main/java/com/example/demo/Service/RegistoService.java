@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.Comms.Sender;
 import com.example.demo.Entity.Registos;
@@ -11,20 +12,14 @@ import com.example.demo.Entity.Sistema;
 import com.example.demo.Repository.RegistoRepository;
 import com.example.demo.Repository.SistemaRepository;
 
+@Service
 public class RegistoService {
     
     @Autowired
     private RegistoRepository registoRepository;
 
-    @Autowired
-    private SistemaService sistemaService;
-
     // Criar um sistema novo
     public void createRegisto(Registos registo) throws Exception {
-        Optional<Registos> existingRegisto = registoRepository.findByTime_init(registo.getTime_init());
-        if (existingRegisto.isPresent()) {
-            throw new Exception("Sistem with this address already exists");
-        }
         // Save the registo to the database
         registoRepository.save(registo);
     }

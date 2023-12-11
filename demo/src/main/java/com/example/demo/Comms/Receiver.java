@@ -35,17 +35,34 @@ public class Receiver {
             case "empty":
                 // envia toda a informação necessaria de tds os users registados
                 List<Sistema> sistema_List = sistemaService.getAllSistemas();
+                if (sistema_List.isEmpty()){
+                    sender.Empty();
+                }
                 for (Sistema sistema : sistema_List) {
                     sender.addSistema(sistema);
                 }
                 break;
     
             case "production":
-                handleEnergyMessage(jmsg, sistemaService::setProducedEnergy);
+                handleEnergyMessage(jmsg, (k, v, s) -> {
+                    try {
+                        sistemaService.setProducedEnergy(k, v, s);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
                 break;
     
             case "consumption":
-                handleEnergyMessage(jmsg, sistemaService::setConsumedEnergy);
+                handleEnergyMessage(jmsg, (k, v, s) -> {
+                    try {
+                        sistemaService.setConsumedEnergy(k, v, s);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
                 break;
             case "added":
                 handleStationsMessage(jmsg, sistemaService::setStations);

@@ -36,15 +36,15 @@ public class Sistema {
     private List<String> stations;
 
     @Column(name = "produced_energy")
-    private Double producedEnergy;
+    private Double producedEnergy = 0.0;
 
     @Column(name = "consumed_energy")
-    private Double consumedEnergy;
+    private Double consumedEnergy = 0.0;
 
-    @OneToMany(mappedBy = "alarmes", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Alarmes> alarmes;
 
-    @OneToMany(mappedBy = "registos", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Registos> registos;
 
      // Getters and setters for producedEnergy field
@@ -53,7 +53,7 @@ public class Sistema {
     }
 
     public void setProducedEnergy(Double producedEnergy) {
-        this.producedEnergy += producedEnergy/100;
+        this.producedEnergy = producedEnergy;
     }
 
     public Long getId(){
