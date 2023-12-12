@@ -2,14 +2,6 @@ package com.example.demo.Entity;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.example.demo.Service.SistemaService;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -107,20 +99,5 @@ public class Sistema {
 
     public void setRegistos(List<Registos> registos) {
         this.registos = registos;
-    }
-    
-
-    @Autowired
-    private SistemaService sistemaService;
-
-    @GetMapping("/sistemas/{id}/registos")
-    public ResponseEntity<?> getRegistosForSistema(@PathVariable Long id) {
-        try {
-            List<Registos> registos = sistemaService.getRegistosForSistema(id);
-            return ResponseEntity.ok(registos);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to retrieve registos for the sistema: " + e.getMessage());
-        }
     }
 }
