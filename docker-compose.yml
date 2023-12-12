@@ -35,7 +35,8 @@ services:
       retries: 3
 
   datagen:
-    build: ./datagen
+    build: ./DataGen
+    image: datagen
     container_name: datagen
     restart: on-failure
     depends_on:

@@ -1,3 +1,5 @@
+USE solarlinkdb;
+
 -- Cria a tabela dos users
 CREATE TABLE IF NOT EXISTS users (
     id bigint AUTO_INCREMENT PRIMARY KEY,
