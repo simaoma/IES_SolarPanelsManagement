@@ -24,11 +24,11 @@ CREATE TABLE IF NOT EXISTS sistemas (
 );
 
 -- inserir dados na tabela dos users
---ADMIN 
+ 
 INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, `type`)
 VALUES
     (0.0, 'vitorinom@gmail.com', 'Vitorino', 'Machado', '#s5h38%2d', 0.0, 'ADMIN');
---USER
+
 INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, `type`)
 VALUES
     (0.0, 'daniel.rodrigues@gmail.com', 'Daniel', 'Rodrigues', 'familia', 0.0, 'USER');
