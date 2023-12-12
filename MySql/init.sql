@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name varchar(255), 
     pass varchar(255), 
     produced_energy bigint, 
-    'type' varchar(255)
+    tipo varchar(255)
 );
 
 -- Cria a tabela dos sistemas
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS sistemas (
     morada varchar(255),
     potencia int,
     produced_energy double,
-    `estações` varbinary(255),
+    estacao varbinary(255),
     id bigint
 );
 

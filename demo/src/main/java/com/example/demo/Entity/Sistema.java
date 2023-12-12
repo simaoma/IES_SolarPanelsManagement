@@ -32,7 +32,7 @@ public class Sistema {
     @Column(name = "potencia", nullable = false)
     private Integer potencia;
 
-    @Column(name = "estações")
+    @Column(name = "estacao")
     private List<String> stations;
 
     @Column(name = "produced_energy")
