@@ -19,31 +19,6 @@ import {
     const [power, setPower] = useState('');
     const [error, setError] = useState('');
   
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-  
-      try {
-        const response = await fetch('http://localhost:8080/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            address,
-            power
-          })
-        });
-  
-        if (response.ok) {
-          // Redirect to login or handle success as needed
-          window.location.href = '/login';
-        } else {
-          throw new Error('Registration failed');
-        }
-      } catch (error) {
-        setError('Registration failed');
-        console.error('Error registering:', error);
-      }
-    };
-  
     return (
       <MDBContainer className="startup-container">
         <MDBCard className='card-startup'>

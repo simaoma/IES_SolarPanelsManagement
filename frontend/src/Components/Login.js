@@ -28,7 +28,7 @@ const Login = () => {
       // Use the login function from useAuth
       await login({ email, password });
       // Redirect after successful login
-      window.location.href = ('/addresses');
+      window.location.href = ('/startup');
 
     } catch (error) {
       setError('Invalid credentials');
