@@ -12,12 +12,36 @@ import {
   import 'mdb-react-ui-kit/dist/css/mdb.min.css';
   import React, { useState } from 'react';
   import '../Css/Startup.css';
-  import solarpanelImage from '../Images/solarpanel-login.jpeg';
   
   const Startup = () => {
     const [address, setAddress] = useState('');
     const [power, setPower] = useState('');
     const [error, setError] = useState('');
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+  
+      try {
+        const response = await fetch('http://localhost:8080/api/users/{userId}/new_sistema', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            address,
+            power
+          })
+        });
+  
+        if (response.ok) {
+          window.location.href = '/adresses';  // Substitua '/' pelo caminho desejado
+        } else {
+          throw new Error('Registration failed');
+        }
+      } catch (error) {
+        setError('Registration failed');
+        console.error('Error registering:', error);
+      }
+    };
+  
   
     return (
       <MDBContainer className="startup-container">
@@ -30,9 +54,9 @@ import {
                     <span className="h1 fw-bold mb-0">SolarLink</span>
                 </div>
                 <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Add your Solar System</h5>
-                <form>
-                  <MDBInput wrapperClass='mb-4' label='Address' id='Address' type='text' size="lg" />
-                  <MDBInput wrapperClass='mb-4' label='Power' id='Power' type='text' size="lg" />
+                <form onSubmit={handleSubmit}>
+                  <MDBInput wrapperClass='mb-4' label='Address' id='Address' type='text' size="lg" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                  <MDBInput wrapperClass='mb-4' label='Power' id='Power' type='text' size="lg" value={power} onChange={(e) => setPower(e.target.value)}/>
                   <MDBBtn type="submit" className="mb-4 px-5" color='warning' size='lg'>Add</MDBBtn>
                 </form>
                 {/* ... */}
