@@ -10,7 +10,7 @@ class Receiver():
         self.connclose()
 
     def conninit(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=5672, heartbeat=600))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.139.0.1', port=5672, heartbeat=600))
         self.channel = self.connection.channel()
 
         self.channel.queue_declare(queue=self.queue)
