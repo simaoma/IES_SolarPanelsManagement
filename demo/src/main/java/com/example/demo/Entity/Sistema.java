@@ -47,6 +47,10 @@ public class Sistema {
     @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Registos> registos;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
      // Getters and setters for producedEnergy field
      public Double getProducedEnergy() {
         return producedEnergy;

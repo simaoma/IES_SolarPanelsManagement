@@ -1,5 +1,5 @@
 // AuthContext.js
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
@@ -21,13 +21,14 @@ export const AuthProvider = ({ children }) => {
         console.error('Error fetching user data:', error);
       }
     };
-
+/*
     if (storedUser) {
       const { id } = JSON.parse(storedUser);
       setIsLoggedin(true);
       setUser(storedUser);
       fetchUserById(id); // Fetch additional user data based on ID
     }
+    */
   }, []);
 
   const login = async (loginData) => {

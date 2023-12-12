@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Comms.Sender;
 import com.example.demo.Entity.Registos;
 import com.example.demo.Entity.Sistema;
+import com.example.demo.Entity.User;
 import com.example.demo.Repository.SistemaRepository;
+import com.example.demo.Repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,6 +20,9 @@ public class SistemaService {
     
     @Autowired
     private SistemaRepository sistemaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RegistoService registoService;
@@ -161,5 +166,19 @@ public class SistemaService {
         } else {
             throw new EntityNotFoundException("Sistema not found with ID: " + sistemaId);
         }
+    }
+
+    public void createSistemaForUser(Long userId, Sistema sistema) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Set the user for the sistema
+        sistema.setUser(user);
+
+        // Save sistema
+        sistemaRepository.save(sistema);
+
+        // Add the sistema to the user's list of sistemas
+        user.getSistemas().add(sistema);
+        userRepository.save(user);
     }
 }
