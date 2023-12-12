@@ -22,6 +22,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // devolve todos os users
+    @GetMapping("/api/users")
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            List<UserDTO> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to retrieve users: " + e.getMessage());
+        }
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserRegisterRequest registerRequest) {
@@ -52,7 +63,7 @@ public class UserController {
     }
 
 
-
+    // Devolve sistemas de um user
     @GetMapping("/api/users/{userId}/sistemas")
     public ResponseEntity<?> getSistemasByUserId(@PathVariable Long userId) {
         try {

@@ -1,21 +1,20 @@
 import {
-    MDBBtn,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBCol,
-    MDBContainer,
-    MDBIcon,
-    MDBInput,
-    MDBRow
-  } from 'mdb-react-ui-kit';
-  import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-  import React, { useState } from 'react';
-  import '../Css/Startup.css';
+  MDBBtn,
+  MDBCard,
+  MDBCardBody,
+  MDBCol,
+  MDBContainer,
+  MDBIcon,
+  MDBInput,
+  MDBRow
+} from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { useState } from 'react';
+import '../Css/Startup.css';
   
   const Startup = () => {
-    const [address, setAddress] = useState('');
-    const [power, setPower] = useState('');
+    const [morada, setAddress] = useState('');
+    const [potencia, setPower] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (event) => {
@@ -26,8 +25,8 @@ import {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            address,
-            power
+            morada,
+            potencia
           })
         });
   
@@ -55,8 +54,8 @@ import {
                 </div>
                 <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Add your Solar System</h5>
                 <form onSubmit={handleSubmit}>
-                  <MDBInput wrapperClass='mb-4' label='Address' id='Address' type='text' size="lg" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                  <MDBInput wrapperClass='mb-4' label='Power' id='Power' type='text' size="lg" value={power} onChange={(e) => setPower(e.target.value)}/>
+                  <MDBInput wrapperClass='mb-4' label='Address' id='Address' type='text' size="lg" value={morada} onChange={(e) => setAddress(e.target.value)}/>
+                  <MDBInput wrapperClass='mb-4' label='Power' id='Power' type='text' size="lg" value={potencia} onChange={(e) => setPower(e.target.value)}/>
                   <MDBBtn type="submit" className="mb-4 px-5" color='warning' size='lg'>Add</MDBBtn>
                 </form>
                 {/* ... */}

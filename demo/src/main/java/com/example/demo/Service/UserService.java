@@ -1,11 +1,13 @@
 package com.example.demo.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Controller.UserDTO;
 import com.example.demo.Controller.UserRegisterRequest;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
@@ -55,7 +57,23 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    } 
+
+
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for (User user : users) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setfirstname(user.getFirstName());
+            userDTO.setPassword(user.getPassword());
+            // Set other fields if needed
+
+            userDTOs.add(userDTO);
+        }
+
+        return userDTOs;
+    }
 }
