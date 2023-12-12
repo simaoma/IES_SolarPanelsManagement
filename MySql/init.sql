@@ -36,5 +36,5 @@ VALUES
 -- inserir dados na tabela sistemas
 INSERT INTO sistemas (consumed_energy, morada, potencia, produced_energy, estacoes, id)
 VALUES
-    (0.0, 'Rua Da Alegria, 120A, Mataduços, Aveiro, 3800-025', 2100, 300, [], 1);
+    (0.0, 'Rua Da Alegria, 120A, Mataduços, Aveiro, 3800-025', 2100, 300, null, 1);
 
