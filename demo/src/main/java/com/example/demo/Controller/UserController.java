@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Entity.Sistema;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.UserService;
 
@@ -50,23 +52,22 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/{userId}/consumed-energy")
-    public ResponseEntity<?> getConsumedEnergy(@PathVariable Long userId) {
-        try {
-            Double consumedEnergy = userService.getConsumedEnergy(userId);
-            return ResponseEntity.ok(consumedEnergy);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve consumed energy: " + e.getMessage());
-        }
-    }
 
-    @GetMapping("/users/{userId}/produced-energy")
-    public ResponseEntity<?> getProducedEnergy(@PathVariable Long userId) {
+    @GetMapping("/api/users/{userId}/sistemas")
+    public ResponseEntity<?> getSistemasByUserId(@PathVariable Long userId) {
         try {
-            Double producedEnergy = userService.getProducedEnergy(userId);
-            return ResponseEntity.ok(producedEnergy);
+            Optional<User> user = userService.getUserById(userId);
+            if (user.isPresent()) {
+                List<Sistema> sistemas = user.get().getSistemas(); // Assuming User has a getSistemas() method
+
+                // Return the sistemas associated with the user
+                return ResponseEntity.ok(sistemas);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve produced energy: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Failed to fetch sistemas: " + e.getMessage());
         }
     }
 }

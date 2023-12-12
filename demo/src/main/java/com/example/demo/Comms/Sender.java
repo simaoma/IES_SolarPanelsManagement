@@ -1,33 +1,48 @@
 package com.example.demo.Comms;
 
 import org.json.JSONObject;
-
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Entity.User;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.example.demo.Entity.Sistema;
 
 @Service
 public class Sender {
     @Autowired private RabbitTemplate rabbitTemplate;
+
+    //acrescentar o modify e mudar os nomes do json e adicionar fields
     
-    public void add(User user) {
+    public void addSistema(Sistema sistema) {
         JSONObject jmsg = new JSONObject();
         jmsg.put("type", "add");
-        jmsg.put("userId", user.getId());
-        jmsg.put("power", 1600);
-        //jmsg.put(null, jmsg); é para meter aqui a localização 
-
+        jmsg.put("sistemId", sistema.getId());
+        jmsg.put("power", sistema.getPotencia());
+        jmsg.put("location", sistema.getMorada());
+        jmsg.put("station", sistema.getStations());
         send(jmsg);
     }
 
-    public void delete(User user) {
+    public void delete(Sistema sistema) {
         JSONObject jmsg = new JSONObject();
         jmsg.put("type", "delete");
-        jmsg.put("userId", user.getId());
+        jmsg.put("sistemId", sistema.getId());
+        send(jmsg);
+    }
 
+    public void updateSistema(Sistema sistema){
+        JSONObject jmsg = new JSONObject();
+        jmsg.put("type", "modify");
+        jmsg.put("sistemId", sistema.getId());
+        jmsg.put("power", sistema.getPotencia());
+        jmsg.put("location", sistema.getMorada());
+        jmsg.put("station", sistema.getStations());
+        send(jmsg);
+    }
+
+        public void Empty(){
+        JSONObject jmsg = new JSONObject();
+        jmsg.put("type", "empty");
         send(jmsg);
     }
 

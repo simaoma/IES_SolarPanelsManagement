@@ -1,10 +1,14 @@
 package com.example.demo.Entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,30 +31,21 @@ public class User {
     @Column(name = "pass", nullable = false)
     private String password;
 
-    @Column(name = "produced_energy")
-    private Double producedEnergy;
+    @Column(name = "type")
+    private String type;
 
-    @Column(name = "consumed_energy")
-    private Double consumedEnergy;
-
-    // Getters and setters for producedEnergy field
-    public Double getProducedEnergy() {
-        return producedEnergy;
-    }
-
-    public void setProducedEnergy(Double producedEnergy) {
-        this.producedEnergy += producedEnergy/100;
-    }
-
-    public Double getConsumedEnergy() {
-        return consumedEnergy;
-    }
-
-    public void setConsumedEnergy(Double consumedEnergy) {
-        this.consumedEnergy = consumedEnergy;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Sistema> sistemas;
 
     public User(){}
+
+    public List<Sistema> getSistemas() {
+        return sistemas;
+    }
+
+    public void setSistemas(List<Sistema> sistemas) {
+        this.sistemas = sistemas;
+    }
 
     public String getPassword() {
         return password;
@@ -88,6 +83,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

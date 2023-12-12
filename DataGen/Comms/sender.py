@@ -3,7 +3,7 @@ import pika
 
 class Sender():
     def __init__(self):
-        self.queue = 'datagen'
+        self.queue = 'datagen.v3'
 
         self.conninit()
 
@@ -11,7 +11,7 @@ class Sender():
         self.connclose()
 
     def conninit(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=5672, heartbeat=600))
         self.channel = self.connection.channel()
 
         self.channel.queue_declare(queue=self.queue)
