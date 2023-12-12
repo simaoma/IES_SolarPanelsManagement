@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_name varchar(255), 
     pass varchar(255), 
     produced_energy bigint, 
-    tipo varchar(255)
+    account_type varchar(255)
 );
 
 -- Cria a tabela dos sistemas
@@ -25,11 +25,11 @@ CREATE TABLE IF NOT EXISTS sistemas (
 
 -- inserir dados na tabela dos users
  
-INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, `type`)
+INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, account_type)
 VALUES
     (0.0, 'vitorinom@gmail.com', 'Vitorino', 'Machado', '#s5h38%2d', 0.0, 'ADMIN');
 
-INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, `type`)
+INSERT INTO users (consumed_energy, email, first_name, last_name, pass, produced_energy, account_type)
 VALUES
     (0.0, 'daniel.rodrigues@gmail.com', 'Daniel', 'Rodrigues', 'familia', 0.0, 'USER');
 

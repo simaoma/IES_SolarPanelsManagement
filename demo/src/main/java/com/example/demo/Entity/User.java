@@ -31,7 +31,7 @@ public class User {
     @Column(name = "pass", nullable = false)
     private String password;
 
-    @Column(name = "tipo")
+    @Column(name = "account_type")
     private String type;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
