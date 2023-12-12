@@ -34,7 +34,7 @@ VALUES
     (0.0, 'daniel.rodrigues@gmail.com', 'Daniel', 'Rodrigues', 'familia', 0.0, 'USER');
 
 -- inserir dados na tabela sistemas
-INSERT INTO sistemas (consumed_energy, morada, potencia, produced_energy, estacoes, id)
+INSERT INTO sistemas (consumed_energy, morada, potencia, produced_energy, estacao, id)
 VALUES
     (0.0, 'Rua Da Alegria, 120A, Mataduços, Aveiro, 3800-025', 2100, 300, null, 1);
 
