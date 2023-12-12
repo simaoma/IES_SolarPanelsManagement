@@ -45,10 +45,9 @@ const Navbar = () => {
           <div className="line3"></div>
         </div>
         <ul className="nav-links">
-          <li><a href="/">Gestão</a></li>
-          <li><a href="/">Relatórios</a></li>
           {isLoggedin ? (
             <>
+              <li><a href="/addresses">Addresses</a></li>
               <li><button onClick={logout} className="login-button">Logout</button></li>
             </>
           ) : (

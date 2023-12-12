@@ -11,9 +11,11 @@ import {
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React, { useState } from 'react';
 import '../Css/Register.css';
+import { useAuth } from '../Context/AuthContext';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
 
 const Register = () => {
+  const { login } = useAuth(); // Move the destructuring inside the component
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,8 +39,10 @@ const Register = () => {
       });
 
       if (response.ok) {
-        // Redirect to login or handle success as needed
-        window.location.href = '/login';
+        // Registro bem-sucedido, agora faça o login automaticamente
+        await login({ email, password });
+        // Redirecione ou faça qualquer outra ação necessária após o login
+        window.location.href = '/addresses';  // Substitua '/stats' pelo caminho desejado
       } else {
         throw new Error('Registration failed');
       }

@@ -1,28 +1,30 @@
-import { Button, ButtonGroup } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import {
-    MDBCard,
-    MDBCardImage,
-    MDBIcon
-} from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React, { useEffect, useState } from 'react';
-import { Cell, Legend, Pie, PieChart } from 'recharts';
 import '../Css/Stats.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
-
+import energyRealTime from '../Images/energy.png';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { makeStyles } from '@material-ui/core/styles';
+import ReactSpeedometer from "react-d3-speedometer"
+import {
+  MDBCard,
+  MDBCardImage,
+  MDBIcon,
+}
+from 'mdb-react-ui-kit';
 
     const Stats = () => {
-
         const [producedToday, setProducedToday] = useState(0);
         const [totalProduced, setTotalProduced] = useState(0);
         const userId = 2; // Replace with the actual user ID
-
+        const moradaId = 1; // Replace with the actual morada ID
 
         // Fetch produced energy for today
         const fetchProducedToday = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8080/users/${userId}/produced-energy`);
+                const response = await fetch(`http://127.0.0.1:8080/users/${userId}/${moradaId}/produced-energy`);
                 if (response.ok) {
                     const data = await response.json();
                     setProducedToday(data);
@@ -92,7 +94,32 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                     <p>Quarta-feira: SoL 26º</p>
                 </MDBCard>
                 <MDBCard className='div4'>
-
+                    <div className='div41'>
+                        <ReactSpeedometer
+                            maxValue={500}
+                            value={173}
+                            valu
+                            needleColor="red"
+                            needleTransitionDuration={4000}
+                            needleTransition="easeElastic"
+                            segments={2}
+                            segmentColors={['#F58D5B', '#ffffff']}
+                            customSegmentStops={[0, 173, 500]}
+                            customSegmentLabels={[
+                              {
+                                text: '',
+                                position: 'OUTSIDE',
+                                color: '#d8dee9',
+                              },
+                              {
+                                text: '',
+                                position: 'OUTSIDE',
+                                color: '#d8dee9',
+                              },
+                            ]}
+                            ringWidth={47}
+                            />
+                    </div>
                 </MDBCard>
                 <MDBCard className='div5'>
                     <MDBCard className='div10'>
@@ -171,8 +198,20 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                         </div>
                 </MDBCard>
                 <MDBCard className='div7'>
-                    
+                    <div className='d-flex align-items-center' style={{ height: '100%' }}>
+                        <MDBCardImage src={energyRealTime} className='div7 mx-auto d-block' style={{ height: '70%'}} />
+                    </div>
+                    <div className="texto-sobreposto-1">
+                        <p>0 W</p>
+                    </div>
+                    <div className="texto-sobreposto-2">
+                        <p>1045 W</p>
+                    </div>
+                    <div className="texto-sobreposto-3">
+                        <p>1045 W</p>
+                    </div>
                 </MDBCard>
+
             </div>
         </MDBCard>
       </div>
