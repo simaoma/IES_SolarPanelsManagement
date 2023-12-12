@@ -1,7 +1,5 @@
 package com.example.demo.Entity;
 
-import java.security.Timestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -39,6 +39,14 @@ public class User {
 
     public User(){}
 
+    public List<Sistema> getSistemas() {
+        return sistemas;
+    }
+
+    public void setSistemas(List<Sistema> sistemas) {
+        this.sistemas = sistemas;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -75,6 +83,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

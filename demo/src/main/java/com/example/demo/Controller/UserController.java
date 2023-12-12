@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Entity.Sistema;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.UserService;
 
@@ -46,6 +48,26 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body("Failed to fetch user: " + e.getMessage());
+        }
+    }
+
+
+
+    @GetMapping("/api/users/{userId}/sistemas")
+    public ResponseEntity<?> getSistemasByUserId(@PathVariable Long userId) {
+        try {
+            Optional<User> user = userService.getUserById(userId);
+            if (user.isPresent()) {
+                List<Sistema> sistemas = user.get().getSistemas(); // Assuming User has a getSistemas() method
+
+                // Return the sistemas associated with the user
+                return ResponseEntity.ok(sistemas);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Failed to fetch sistemas: " + e.getMessage());
         }
     }
 }

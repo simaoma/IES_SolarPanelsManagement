@@ -6,11 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Comms.Sender;
 import com.example.demo.Entity.Registos;
 import com.example.demo.Entity.Sistema;
 import com.example.demo.Repository.RegistoRepository;
-import com.example.demo.Repository.SistemaRepository;
 
 @Service
 public class RegistoService {

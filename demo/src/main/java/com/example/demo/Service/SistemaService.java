@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Comms.Sender;
-import com.example.demo.Controller.UserRegisterRequest;
 import com.example.demo.Entity.Registos;
 import com.example.demo.Entity.Sistema;
-import com.example.demo.Entity.User;
 import com.example.demo.Repository.SistemaRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SistemaService {
@@ -152,5 +152,14 @@ public class SistemaService {
     public Sistema getSisById(Long sisId){
         Optional<Sistema> optionalSis = sistemaRepository.findById(sisId);
         return optionalSis.get();
+    }
+
+    public List<Registos> getRegistosForSistema(Long sistemaId) {
+        Optional<Sistema> sistema = sistemaRepository.findById(sistemaId);
+        if (sistema.isPresent()) {
+            return sistema.get().getRegistos();
+        } else {
+            throw new EntityNotFoundException("Sistema not found with ID: " + sistemaId);
+        }
     }
 }
