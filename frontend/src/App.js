@@ -1,14 +1,14 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 
+import Address_Card from './Components/Address_Card';
+import Addresses from './Components/Addresses';
 import Home from './Components/Home';
 import Login from './Components/Login';
 import Navbar from './Components/Navbar';
 import Register from './Components/Register';
-import Stats from './Components/Stats';
 import Startup from './Components/Startup';
-import Addresses from './Components/Addresses';
-import Address_Card from './Components/Address_Card';
+import Stats from './Components/Stats';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/stats" element={<Stats />} />
-          <Route path="/startup" element={<Startup />} />
+          <Route path="/startup/:userId" component={<Startup />} element={<Startup />} />
           <Route path="/addresses" element={<Addresses />} />
           <Route path="/address_card" element={<Address_Card />} />
         </Routes>

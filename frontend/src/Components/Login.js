@@ -15,6 +15,7 @@ import { useAuth } from '../Context/AuthContext';
 import '../Css/Login.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
 
+
 const Login = () => {
   const { login } = useAuth(); // Move the destructuring inside the component
   const [email, setEmail] = useState("");
@@ -26,9 +27,12 @@ const Login = () => {
 
     try {
       // Use the login function from useAuth
-      await login({ email, password });
+      const userId = await login({ email, password });
+      console.log(userId);
+      
       // Redirect after successful login
-      window.location.href = ('/startup');
+      window.location.href = (`/startup/${userId}`);
+      return userId;
 
     } catch (error) {
       setError('Invalid credentials');

@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(userData));
         setIsLoggedin(true);
         setUser(userData);
+        return userData.id;
       } else {
         throw new Error('Login failed');
       }
