@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/startup/:userId" component={<Startup />} element={<Startup />} />
-          <Route path="/addresses" element={<Addresses />} />
+          <Route path="/addresses/:userId" element={<Addresses />} />
           <Route path="/address_card" element={<Address_Card />} />
         </Routes>
       </AuthProvider>

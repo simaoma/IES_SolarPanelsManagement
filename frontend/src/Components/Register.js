@@ -15,7 +15,7 @@ import { useAuth } from '../Context/AuthContext';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
 
 const Register = () => {
-  const { login } = useAuth(); // Move the destructuring inside the component
+  const { login } = useAuth();
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,9 +40,9 @@ const Register = () => {
 
       if (response.ok) {
         // Registro bem-sucedido, agora faça o login automaticamente
-        await login({ email, password });
+        const userId = await login({ email, password });
         // Redirecione ou faça qualquer outra ação necessária após o login
-        window.location.href = '/startup';  // Substitua '/stats' pelo caminho desejado
+        window.location.href = `/startup/${userId}`;
       } else {
         throw new Error('Registration failed');
       }
