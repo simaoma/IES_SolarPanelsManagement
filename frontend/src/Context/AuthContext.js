@@ -42,11 +42,14 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.ok) {
+        localStorage.setItem('isLoggedIn', 'true');
         const userData = await response.json();
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userId', userData.id);
         setIsLoggedin(true);
         setUser(userData);
-        return userData.id;
+        const sistemas = userData.sistemas;
+        return [(userData.id), sistemas];
       } else {
         throw new Error('Login failed');
       }
@@ -69,9 +72,5 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 };

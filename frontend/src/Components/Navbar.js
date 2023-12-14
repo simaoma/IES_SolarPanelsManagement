@@ -1,14 +1,21 @@
-import React, { useEffect } from "react";
+import { default as React, useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
+import { useAuth } from "../Context/AuthContext";
 import "../Css/Navbar.css";
-import { useAuth } from '../Context/AuthContext';
+
 
 const Navbar = () => {
-  const { isLoggedin, logout } = useAuth();
+  const [isLoggedin, setIsLoggedIn] = useState(false);
+  const {logout} = useAuth();
 
   useEffect(() => {
     const hamburger = document.querySelector(".hamburger");
     const navLinks = document.querySelector(".nav-links");
     const links = document.querySelectorAll(".nav-links li");
+    const loggedIn = localStorage.getItem('isLoggedIn');
+    if (loggedIn === 'true') {
+        setIsLoggedIn(true);
+    }
 
     if (hamburger) {
       const handleClick = () => {
@@ -47,13 +54,14 @@ const Navbar = () => {
         <ul className="nav-links">
           {isLoggedin ? (
             <>
-              <li><a href="/addresses">Addresses</a></li>
-              <li><button onClick={logout} className="login-button">Logout</button></li>
+              <li><Link to="/addresses">Addresses</Link></li>
+              <li><button onClick={logout} className="login-button"><Link to="/">Logout</Link></button></li>
+              <li><Link to="/stats">Stats</Link></li>
             </>
           ) : (
             <>
-              <li><a href="/login" className="login-button">Login</a></li>
-              <li><a href="/register" className="login-button2">Register</a></li>
+              <li><Link to="/login" className="login-button">Login</Link></li>
+              <li><Link to="/register" className="login-button2">Register</Link></li>
             </>
           )}
         </ul>

@@ -9,17 +9,20 @@ import Navbar from './Components/Navbar';
 import Register from './Components/Register';
 import Startup from './Components/Startup';
 import Stats from './Components/Stats';
+import { useAuth } from './Context/AuthContext'; // Import useAuth from your authentication context
+
 
 function App() {
+  const { userId } = useAuth(); // Retrieve the userId from the authentication context or wherever it's stored
   return (
     <Router>
       <AuthProvider>
-        <Navbar />
+        <Navbar userId={userId} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/stats" element={<Stats />} />
+          <Route path="/stats/:sistemaId" element={<Stats />} />
           <Route path="/startup/:userId" component={<Startup />} element={<Startup />} />
           <Route path="/addresses/:userId" element={<Addresses />} />
           <Route path="/address_card" element={<Address_Card />} />

@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,19 @@ public class SistemaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve produced energy: " + e.getMessage());
         }
     }
+
+    @GetMapping("api/sistemas/{id}")
+    public ResponseEntity<?> getInfo(@PathVariable Long id) {
+        try {
+            Optional<Sistema> sistema = sistemaService.getSisById(id);
+            return sistema.map(ResponseEntity::ok)
+                       .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Failed to fetch user: " + e.getMessage());
+        }
+    }
+
 
     @GetMapping("/sistemas/{id}/registos")
     public ResponseEntity<?> getRegistosForSistema(@PathVariable Long id) {

@@ -154,9 +154,8 @@ public class SistemaService {
         return sistemaRepository.findAll();
     }
 
-    public Sistema getSisById(Long sisId){
-        Optional<Sistema> optionalSis = sistemaRepository.findById(sisId);
-        return optionalSis.get();
+    public Optional<Sistema> getSisById(Long sisId){
+        return sistemaRepository.findById(sisId);
     }
 
     public List<Registos> getRegistosForSistema(Long sistemaId) {

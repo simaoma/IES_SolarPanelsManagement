@@ -11,9 +11,12 @@ import {
 } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import { useAuth } from '../Context/AuthContext';
 import '../Css/Login.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
+
+
 
 
 const Login = () => {
@@ -21,18 +24,24 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Use useNavigate to perform redirects
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       // Use the login function from useAuth
-      const userId = await login({ email, password });
-      console.log(userId);
-      
-      // Redirect after successful login
-      window.location.href = (`/startup/${userId}`);
-      return userId;
+      const retorno = await login({ email, password });
+      const userId = retorno[0];
+      const sistemas = retorno[1];
+
+      if (sistemas) {
+        navigate(`/addresses/${userId}`); // Navigate to the Stats page
+      } else {
+        navigate(`/startup/${userId}`); // Navigate to the Startup page
+        return userId;
+      }
 
     } catch (error) {
       setError('Invalid credentials');

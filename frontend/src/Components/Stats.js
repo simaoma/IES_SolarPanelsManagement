@@ -1,33 +1,55 @@
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import React, { useEffect, useState } from 'react';
-import '../Css/Stats.css';
-import solarpanelImage from '../Images/solarpanel-login.jpeg';
-import energyRealTime from '../Images/energy.png';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import ReactSpeedometer from "react-d3-speedometer"
 import {
-  MDBCard,
-  MDBCardImage,
-  MDBIcon,
-}
-from 'mdb-react-ui-kit';
+    MDBCard,
+    MDBCardImage,
+    MDBIcon,
+} from 'mdb-react-ui-kit';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import React, { useEffect, useState } from 'react';
+import ReactSpeedometer from "react-d3-speedometer";
+import { useParams } from 'react-router-dom';
+import { Cell, Legend, Pie, PieChart } from 'recharts';
+import { useAuth } from '../Context/AuthContext'; // Import useAuth from your authentication context
+import '../Css/Stats.css';
+import energyRealTime from '../Images/energy.png';
+import solarpanelImage from '../Images/solarpanel-login.jpeg';
+
 
     const Stats = () => {
+        const { isLoggedin } = useAuth(); // Retrieve authentication status from the context
         const [producedToday, setProducedToday] = useState(0);
         const [totalProduced, setTotalProduced] = useState(0);
-        const userId = 2; // Replace with the actual user ID
-        const moradaId = 1; // Replace with the actual morada ID
+        const {sistemaId} = useParams(); // Replace with the actual morada ID
+        const [morada, setMorada] = useState('');
+        const [capacidade, setCapacidade] = useState(0);
+
 
         // Fetch produced energy for today
         const fetchProducedToday = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8080/users/${userId}/${moradaId}/produced-energy`);
-                if (response.ok) {
+                const response = await fetch(`http://localhost:8080/sistemas/${sistemaId}/consumed-energy`);
+                if (response.headers.get("Content-Type").includes("application/json")) {
                     const data = await response.json();
                     setProducedToday(data);
+                } else {
+                    console.error('Failed to fetch produced energy for today:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching produced energy for today:', error);
+            }
+        };
+
+
+        // Fetch sistema info
+        const fetchSisInfo = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/sistemas/${sistemaId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setMorada(data.morada);
+                    setCapacidade(data.potencia);
                 } else {
                     console.error('Failed to fetch produced energy for today:', response.statusText);
                 }
@@ -39,6 +61,7 @@ from 'mdb-react-ui-kit';
         useEffect(() => {
             // Fetch data initially
             fetchProducedToday();
+            fetchSisInfo();
     
             // Set interval to fetch data periodically
             const interval = setInterval(() => {
@@ -47,7 +70,7 @@ from 'mdb-react-ui-kit';
     
             // Clear interval on component unmount
             return () => clearInterval(interval);
-        }, []);
+        }, [isLoggedin]);
 
         const data1 = [
         { name: "Gerado", value: 2 },
@@ -82,16 +105,8 @@ from 'mdb-react-ui-kit';
                     <MDBCardImage src={solarpanelImage} className='div1'/>
                 </MDBCard>
                 <MDBCard className='div2'>
-                    <p>Criado em: 10.09.2021</p>
-                    <p>Classificação: Residencial</p>
-                    <p>Capacidade FV: 2.10 kW</p>
-                    <p>Endereço: Rua da alegria 120, 3800-025</p>
-                </MDBCard>
-                <MDBCard className='div3'>
-                    <p>Hoje: Sol 23º</p>
-                    <p>Amanhã: Chuva 21º</p>
-                    <p>Terça-Feira: Chuva 20º</p>
-                    <p>Quarta-feira: SoL 26º</p>
+                    <p>Potência: {capacidade} kW</p>
+                    <p>Morada: {morada}</p>
                 </MDBCard>
                 <MDBCard className='div4'>
                     <div className='div41'>

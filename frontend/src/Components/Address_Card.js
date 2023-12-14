@@ -1,12 +1,14 @@
-import React from "react";
-import solarpanelImage from '../Images/solarpanel-login.jpeg';
 import { MDBCard, MDBCardImage, MDBContainer } from "mdb-react-ui-kit";
+import React from "react";
 import '../Css/Address_Card.css';
+import solarpanelImage from '../Images/solarpanel-login.jpeg';
+import { Link } from "react-router-dom";
 
 const AddressCard = ({ sistema }) => {
   return (
     <MDBContainer className="address-card-container">
       <MDBCard className="card-address">
+      <Link to={`/stats/${sistema.id}`}>
         <div className="parent-address">
           <div className="div1-address">
             <MDBCardImage src={solarpanelImage} alt="login form" className='div1-address rounded-start w-100'/>
@@ -20,6 +22,7 @@ const AddressCard = ({ sistema }) => {
             <p>Consumed Energy: {sistema.consumedEnergy} kWh</p>
           </div>
         </div>
+      </Link>
       </MDBCard>
     </MDBContainer>
   );
