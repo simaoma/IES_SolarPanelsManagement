@@ -9,6 +9,7 @@ import Navbar from './Components/Navbar';
 import Register from './Components/Register';
 import Startup from './Components/Startup';
 import Stats from './Components/Stats';
+import AddAlarm from './Components/Add_Alarm';
 import { useAuth } from './Context/AuthContext'; // Import useAuth from your authentication context
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/startup/:userId" component={<Startup />} element={<Startup />} />
           <Route path="/addresses/:userId" element={<Addresses />} />
           <Route path="/address_card" element={<Address_Card />} />
+          <Route path="/addalarm" component={<AddAlarm />} element={<AddAlarm />} />
         </Routes>
       </AuthProvider>
     </Router>

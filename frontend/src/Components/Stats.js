@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import {
     MDBCard,
     MDBCardImage,
@@ -152,9 +153,14 @@ import {
                     <p>Potência: {capacidade} kW</p>    
                 </MDBCard>
                 <MDBCard className='div3'>
-                    <p>Hoje: Sol 23º</p>
-                    <p>Amanhã: Chuva 21º</p>
-                    <p>Terça-Feira: Chuva 20º</p>
+                    <p style={{ fontSize: '25px'}}>Alarmes:</p>
+                    <p>250 kW</p>
+                    <p>300 kW</p>
+                    <ButtonGroup color="inherit" style={{ marginLeft: '16rem', marginBottom: '1rem' }}>
+                        <Link to="/addalarm" style={{ textDecoration: 'none' }}>
+                            <Button style={{backgroundColor: '#f2af13' }}>Add Alarm</Button>
+                        </Link>
+                    </ButtonGroup>
                 </MDBCard>
                 <MDBCard className='div4'>
                     <div className='div41'>
