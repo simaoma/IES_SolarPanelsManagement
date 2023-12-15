@@ -24,7 +24,7 @@
  }
 
  .logo span {
-   color:#ffffff;
+   color: #f2af13;
    font-size:26px;
    font-weight:bold;
    letter-spacing: 1px;
@@ -34,11 +34,6 @@
 
  .logo a{
    text-decoration: none;
- }
-
- .logo span:hover{
-   text-decoration: none;
-   color: #f2af13;
  }
  
  /*Styling Links*/

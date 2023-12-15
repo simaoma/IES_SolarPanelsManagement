@@ -15,6 +15,14 @@ import { useAuth } from '../Context/AuthContext'; // Import useAuth from your au
 import '../Css/Stats.css';
 import energyRealTime from '../Images/energy.png';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
+import {
+    LineChart,
+    ResponsiveContainer,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid
+} from 'recharts';
 
 
     const Stats = () => {
@@ -24,6 +32,7 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
         const {sistemaId} = useParams(); // Replace with the actual morada ID
         const [morada, setMorada] = useState('');
         const [capacidade, setCapacidade] = useState(0);
+        const [view, setView] = useState('live'); // 'history' or 'live'
 
 
         // Fetch produced energy for today
@@ -96,6 +105,40 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
           },
         },
       }));
+
+
+      const pdata = [
+        {
+            name: 'MongoDb',
+            student: 11,
+            fees: 120
+        },
+        {
+            name: 'Javascript',
+            student: 15,
+            fees: 12
+        },
+        {
+            name: 'PHP',
+            student: 5,
+            fees: 10
+        },
+        {
+            name: 'Java',
+            student: 10,
+            fees: 5
+        },
+        {
+            name: 'C#',
+            student: 9,
+            fees: 4
+        },
+        {
+            name: 'C++',
+            student: 10,
+            fees: 8
+        },
+    ];
     
     return (
       <div className="stats-container">
@@ -107,6 +150,11 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                 <MDBCard className='div2'>
                     <p>Morada: {morada}</p>
                     <p>Potência: {capacidade} kW</p>    
+                </MDBCard>
+                <MDBCard className='div3'>
+                    <p>Hoje: Sol 23º</p>
+                    <p>Amanhã: Chuva 21º</p>
+                    <p>Terça-Feira: Chuva 20º</p>
                 </MDBCard>
                 <MDBCard className='div4'>
                     <div className='div41'>
@@ -213,20 +261,45 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                         </div>
                 </MDBCard>
                 <MDBCard className='div7'>
-                    <div className='d-flex align-items-center' style={{ height: '100%' }}>
-                        <MDBCardImage src={energyRealTime} className='div7 mx-auto d-block' style={{ height: '70%'}} />
+                    <div className='div70'>
+                        <ButtonGroup size="small" color="inherit" aria-label="small outlined button group">
+                        <Button onClick={() => setView('live')}>Live Info</Button>
+                        <Button onClick={() => setView('history')}>History</Button>
+                        </ButtonGroup>
                     </div>
-                    <div className="texto-sobreposto-1">
-                        <p>0 W</p>
-                    </div>
-                    <div className="texto-sobreposto-2">
-                        <p>1045 W</p>
-                    </div>
-                    <div className="texto-sobreposto-3">
-                        <p>1045 W</p>
-                    </div>
-                </MDBCard>
 
+                    {view === 'live' && (
+                        <>
+                        <div className='d-flex align-items-center' style={{ height: '100%' }}>
+                            <MDBCardImage src={energyRealTime} className='div7 mx-auto d-block' style={{ height: '70%' }} />
+                        </div>
+                        <div className="texto-sobreposto-1">
+                            <p>0 W</p>
+                        </div>
+                        <div className="texto-sobreposto-2">
+                            <p>1045 W</p>
+                        </div>
+                        <div className="texto-sobreposto-3">
+                            <p>1045 W</p>
+                        </div>
+                        </>
+                    )}
+
+                    {view === 'history' && (
+                        <div style={{ height: '100%' , marginLeft: '15rem', marginTop: '5rem'}}>
+                            <ResponsiveContainer width="100%" aspect={3}>
+                            <LineChart data={pdata} margin={{ right: 300 }}>
+                                <CartesianGrid />
+                                <XAxis dataKey="name" interval={'preserveStartEnd'} />
+                                <YAxis />
+                                <Legend />
+                                <Line dataKey="student" stroke="white" />
+                                <Line dataKey="fees" stroke="red" />
+                            </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    )}
+                </MDBCard>
             </div>
         </MDBCard>
       </div>
