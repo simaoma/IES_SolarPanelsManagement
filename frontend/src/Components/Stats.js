@@ -105,8 +105,8 @@ import solarpanelImage from '../Images/solarpanel-login.jpeg';
                     <MDBCardImage src={solarpanelImage} className='div1'/>
                 </MDBCard>
                 <MDBCard className='div2'>
-                    <p>Potência: {capacidade} kW</p>
                     <p>Morada: {morada}</p>
+                    <p>Potência: {capacidade} kW</p>    
                 </MDBCard>
                 <MDBCard className='div4'>
                     <div className='div41'>

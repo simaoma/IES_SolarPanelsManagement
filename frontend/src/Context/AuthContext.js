@@ -21,14 +21,12 @@ export const AuthProvider = ({ children }) => {
         console.error('Error fetching user data:', error);
       }
     };
-/*
     if (storedUser) {
       const { id } = JSON.parse(storedUser);
       setIsLoggedin(true);
       setUser(storedUser);
       fetchUserById(id); // Fetch additional user data based on ID
     }
-    */
   }, []);
 
   const login = async (loginData) => {

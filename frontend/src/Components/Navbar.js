@@ -1,21 +1,15 @@
-import { default as React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { useAuth } from "../Context/AuthContext";
 import "../Css/Navbar.css";
 
-
 const Navbar = () => {
-  const [isLoggedin, setIsLoggedIn] = useState(false);
-  const {logout} = useAuth();
+  const { isLoggedin, user, logout } = useAuth();
 
   useEffect(() => {
     const hamburger = document.querySelector(".hamburger");
     const navLinks = document.querySelector(".nav-links");
     const links = document.querySelectorAll(".nav-links li");
-    const loggedIn = localStorage.getItem('isLoggedIn');
-    if (loggedIn === 'true') {
-        setIsLoggedIn(true);
-    }
 
     if (hamburger) {
       const handleClick = () => {
@@ -38,13 +32,17 @@ const Navbar = () => {
     }
   }, []);
 
+  const handleLogout = (e) => {
+    e.preventDefault(); 
+    logout(); 
+    window.location.href = "/";
+  };
+
   return (
     <div>
       <nav>
         <div className="logo">
-          <a href="/">
             <span>SolarLink</span>
-          </a>
         </div>
         <div className="hamburger">
           <div className="line1"></div>
@@ -54,9 +52,9 @@ const Navbar = () => {
         <ul className="nav-links">
           {isLoggedin ? (
             <>
-              <li><Link to="/addresses">Addresses</Link></li>
-              <li><button onClick={logout} className="login-button"><Link to="/">Logout</Link></button></li>
-              <li><Link to="/stats">Stats</Link></li>
+              <li><Link to={`/addresses/${user.id}`}>Addresses</Link></li>
+              <li><Link to={`/startup/${user.id}`}>Add address</Link></li>
+              <li><button onClick={handleLogout} className="login-button">Logout</button></li>
             </>
           ) : (
             <>

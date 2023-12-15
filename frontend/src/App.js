@@ -13,11 +13,10 @@ import { useAuth } from './Context/AuthContext'; // Import useAuth from your aut
 
 
 function App() {
-  const { userId } = useAuth(); // Retrieve the userId from the authentication context or wherever it's stored
   return (
     <Router>
       <AuthProvider>
-        <Navbar userId={userId} />
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
