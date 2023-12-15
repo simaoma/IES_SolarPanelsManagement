@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useAuth } from "../Context/AuthContext";
 import "../Css/Navbar.css";
 
 const Navbar = () => {
   const { isLoggedin, user, logout } = useAuth();
+
+  useEffect(() => {
+    console.log("Navbar - isLoggedin:", isLoggedin);
+  }, [isLoggedin]);
 
   useEffect(() => {
     const hamburger = document.querySelector(".hamburger");
