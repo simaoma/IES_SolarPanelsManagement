@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AddressCard from "./Address_Card";
+import AddAddressCard from "./Add_Address_Card";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Importe o hook useParams
-import '../Css/Address_Card.css';
+import '../Css/Addresses.css';
+import { Link } from 'react-router-dom';
 
 const Addresses = () => {
   const { userId } = useParams(); // Obtenha o userId da URL
@@ -28,6 +30,11 @@ const Addresses = () => {
     fetchAddresses();
   }, [userId]);
   
+  const additionalCard = {
+    id: "additional-card",
+    name: "New System",
+    color: "yellow",
+  };
 
   return (
     <div>
@@ -37,6 +44,7 @@ const Addresses = () => {
         {addresses.map((address) => (
           <AddressCard key={address.id} sistema={address} />
         ))}
+        <AddAddressCard />
       </div>
     </div>
   );

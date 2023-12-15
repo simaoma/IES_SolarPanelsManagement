@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const AddressCard = ({ sistema }) => {
   return (
-    <MDBContainer className="address-card-container">
       <MDBCard className="card-address">
       <Link to={`/stats/${sistema.id}`}>
         <div className="parent-address">
@@ -24,7 +23,6 @@ const AddressCard = ({ sistema }) => {
         </div>
       </Link>
       </MDBCard>
-    </MDBContainer>
   );
 };
 

@@ -1,0 +1,14 @@
+.addresses-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Display two columns */
+    align-items: center;
+
+    margin-left: 19rem;
+    margin-right: 16rem;
+}
+
+
+.all-systems-tittle {
+    text-align: center;
+}
+
