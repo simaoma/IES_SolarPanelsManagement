@@ -22,7 +22,7 @@ public class Notificacao {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_alarme")
-    private Alarmes alarme;
+    private Alarme alarme;
 
     @Column(name = "time_stamp", nullable = false, unique = true)
     private Timestamp time_stamp;

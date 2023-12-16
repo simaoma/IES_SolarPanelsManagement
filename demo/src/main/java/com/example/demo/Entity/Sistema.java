@@ -42,7 +42,7 @@ public class Sistema {
     private Double consumedEnergy = 0.0;
 
     @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
-    private List<Alarmes> alarmes;
+    private List<Alarme> alarmes;
 
     @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Registos> registos;
@@ -103,5 +103,9 @@ public class Sistema {
 
     public void setRegistos(List<Registos> registos) {
         this.registos = registos;
+    }
+
+    public List<Alarme> getAlarmes() {
+        return alarmes;
     }
 }
