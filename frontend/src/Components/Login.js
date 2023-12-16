@@ -29,26 +29,26 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       // Use the login function from useAuth
       const retorno = await login({ email, password });
-      const userId = retorno[0];
+            const userId = retorno[0];
       const sistemas = retorno[1];
-
-      if (sistemas) {
+  
+      if (sistemas > 0) {
         navigate(`/addresses/${userId}`); // Navigate to the Stats page
       } else {
         navigate(`/startup/${userId}`); // Navigate to the Startup page
         return userId;
       }
-
+  
     } catch (error) {
       setError('Invalid credentials');
       console.log('Error logging in:', error);
     }
   };
-
+  
   return (
     <MDBContainer className="login-container">
       <MDBCard className='card'>
