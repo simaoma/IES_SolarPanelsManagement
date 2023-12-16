@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "alarmes")
-public class Alarmes {
+public class Alarme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +31,20 @@ public class Alarmes {
 
     @OneToMany(mappedBy = "alarme", cascade = CascadeType.ALL) //
     private List<Notificacao> notificacoes;
+
+    public void setcondicao(String condicao) {
+        this.condicao = condicao;
+    }
+
+    public String getCondicao(){
+        return condicao;
+    }
+
+    public void setSistema(Sistema sistema) {
+        this.sistema = sistema;
+    }
+
+    public List<Notificacao> getNots() {
+        return notificacoes;
+    }
 }
