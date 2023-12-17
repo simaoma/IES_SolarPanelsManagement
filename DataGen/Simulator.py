@@ -223,8 +223,15 @@ class Simulator():
         return distance
     
     def generate_consumption_pattern(self,hours_in_a_day):
+        
         time = np.arange(0, hours_in_a_day, 1)
         pattern = np.cos(2 * np.pi * time / hours_in_a_day) + np.random.normal(scale=0.2, size=hours_in_a_day)
+        
+        # Ensure that the pattern is not an empty array
+        while np.all(np.isnan(pattern)):
+            pattern = np.cos(2 * np.pi * time / hours_in_a_day) + np.random.normal(scale=0.2, size=hours_in_a_day)
+
         return pattern
+
 
 
