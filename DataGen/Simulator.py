@@ -6,7 +6,7 @@ import time
 from math import radians, sin, cos, sqrt, atan2
 import numpy as np
 
-MEDIAN_CONSUMPTION = 14.66 #consumo media mensal 440 Kwh
+MEDIAN_CONSUMPTION = 0.21 #consumo media mensal 440 Kwh
 HOURS_DAY = 24
 
 class Simulator():
