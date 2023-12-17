@@ -42,7 +42,7 @@ class Simulator():
                     station.append(stations_info)          
                 msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                 self.messages.append(msg)
-            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': -1, 'cons': -1,'pattern_cons': self.generate_consumption_pattern(NUM_DATA)})
+            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': -1, 'cons': -1,'pattern_cons': []})
         
         elif msgtype in ['modify']:
             sisId = jmsg['sistemId']
@@ -107,6 +107,7 @@ class Simulator():
                     if consum_bool:
                         if pattern == []:
                             pattern = self.generate_consumption_pattern(NUM_DATA)
+                            sistem['pattern_cons'] = pattern
                         consum = round(abs(MEDIAN_CONSUMPTION * (1 + pattern.pop(0))),2)
                         if consum != sistem['cons']:
                             msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
