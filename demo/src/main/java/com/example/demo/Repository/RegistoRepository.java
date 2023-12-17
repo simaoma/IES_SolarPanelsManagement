@@ -13,5 +13,7 @@ import com.example.demo.Entity.Sistema;
 public interface RegistoRepository extends JpaRepository<Registos, Long> {
     Optional<Registos> findById(Long id);
 
+    List<Registos> findBySistema(Optional<Sistema> sis);
+
     List<Registos> findBySistemaAndType(Sistema sistema, String tipo);
 }
