@@ -6,9 +6,8 @@ import time
 from math import radians, sin, cos, sqrt, atan2
 import numpy as np
 
-EVENT_CHANCE = 10 # %
-MEDIAN_CONSUMPTION = 23423 # mudar isto
-HOURS_DAY = 24
+MEDIAN_CONSUMPTION = 14.66 #consumo media mensal 440 Kwh
+NUM_DATA = 72
 
 class Simulator():
 
@@ -43,7 +42,7 @@ class Simulator():
                     station.append(stations_info)          
                 msg = {'type': 'added', 'sistemId': sisId, 'station': station}
                 self.messages.append(msg)
-            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': -1, 'cons': -1})
+            self.sistem_info.append({"sistemId": sisId, "power": power, "station": station, "location": location, 'prod': -1, 'cons': -1,'pattern_cons': self.generate_consumption_pattern(NUM_DATA)})
         
         elif msgtype in ['modify']:
             sisId = jmsg['sistemId']
@@ -83,6 +82,7 @@ class Simulator():
                     station = sistem['station']
                     power = sistem['power']
                     sisId = sistem['sistemId']
+                    pattern = sistem['pattern_cons']
                     
                     weather_station = []
                     for stationId in station:
@@ -97,7 +97,7 @@ class Simulator():
                     if radi == -99.0:
                         energy = 0.0
                     else:
-                        energy = (radi/1000) * (power/1000) # verificar se a formula está correta
+                        energy = round((radi * power)/1000,2) # verificar se a formula está correta
                     
                     if energy != sistem['prod']:
                         msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -105,7 +105,9 @@ class Simulator():
                         sistem['prod'] = energy
 
                     if consum_bool:
-                        consum = MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY))
+                        if pattern == []:
+                            pattern = self.generate_consumption_pattern(NUM_DATA)
+                        consum = round(abs(MEDIAN_CONSUMPTION * (1 + pattern.pop(0))),2)
                         if consum != sistem['cons']:
                             msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                             messages.append(msg)
@@ -223,7 +225,6 @@ class Simulator():
     def generate_consumption_pattern(self,hours_in_a_day):
         time = np.arange(0, hours_in_a_day, 1)
         pattern = np.cos(2 * np.pi * time / hours_in_a_day) + np.random.normal(scale=0.2, size=hours_in_a_day)
-        value = pattern[randint(0,len(pattern)-1)]
-        return abs(value)
+        return pattern
 
 
