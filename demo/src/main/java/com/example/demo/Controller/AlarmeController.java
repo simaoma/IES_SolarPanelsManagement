@@ -41,7 +41,7 @@ public class AlarmeController {
     public ResponseEntity<String> createAlarmeForSistema(@PathVariable Long sistemaId, @RequestBody AlarmeRequest alarmeRequest) {
         try {
             Alarme alarme = new Alarme();
-            alarme.setcondicao(alarmeRequest.getCondicao());
+            alarme.setcondicao(alarmeRequest.getMin());
     
             alarmeService.createAlarmeForSistema(sistemaId, alarme);
             return ResponseEntity.ok("Alarme created successfully!");
@@ -51,10 +51,12 @@ public class AlarmeController {
         }
     }
 
-    @GetMapping("/alarmes")
-        public ResponseEntity<?> getAllAlarmes() {
+
+    // Devolve todos os alarmes existentes
+    @GetMapping("/alarmes/{sistemaId}")
+        public ResponseEntity<?> getAllAlarmes(@PathVariable Long sistemaId) {
             try {
-                List<Alarme> alarmes = alarmeService.getAllAlarmes();
+                List<Alarme> alarmes = alarmeService.getAllAlarmes(sistemaId);
                 return ResponseEntity.ok(alarmes);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -62,10 +64,13 @@ public class AlarmeController {
             }
         }
 
+    
+    // Devolve alarmes ativos para um sistema
     @GetMapping("/alarmes/ativos")
-    public ResponseEntity<?> getAtivosAlarmes() {
+    public ResponseEntity<?> getAtivosAlarmes(@PathVariable Long sistemaId) {
         try {
             List<Alarme> ativos = alarmeDetection.alarmesAtivos;
+            alarmeDetection.monitorProducedEnergy(sistemaId);
             return ResponseEntity.ok(ativos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

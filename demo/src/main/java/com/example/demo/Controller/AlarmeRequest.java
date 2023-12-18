@@ -1,13 +1,16 @@
 package com.example.demo.Controller;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class AlarmeRequest {
     private String condicao;
 
-    public String getCondicao() {
+    public String getMin() {
         return condicao;
     }
 
-    public void setCondicao(String condicao) {
+    public void setMin(String condicao) {
         this.condicao = condicao;
     }
 }
