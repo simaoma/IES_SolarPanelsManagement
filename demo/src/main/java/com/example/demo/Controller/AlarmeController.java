@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Entity.Alarme;
 import com.example.demo.Entity.Notificacao;
-import com.example.demo.Service.AlarmeDetection;
 import com.example.demo.Service.AlarmeService;
 
 @RestController
@@ -69,12 +68,11 @@ public class AlarmeController {
     @GetMapping("/alarmes/ativos/{sistemaId}")
     public ResponseEntity<?> getAtivosAlarmes(@PathVariable Long sistemaId) {
         try {
-            List<Alarme> ativos = alarmeDetection.aaa();
-            alarmeDetection.monitorProducedEnergy(sistemaId);
-            return ResponseEntity.ok(ativos);
+            List<Alarme> activeAlarms = alarmeDetection.getActiveAlarmsForSistema(sistemaId);
+            return ResponseEntity.ok(activeAlarms);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to retrieve alarmes: " + e.getMessage());
+                    .body("Failed to retrieve active alarms: " + e.getMessage());
         }
     }
 }

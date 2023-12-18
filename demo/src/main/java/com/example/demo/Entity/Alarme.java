@@ -44,6 +44,10 @@ public class Alarme {
         this.sistema = sistema;
     }
 
+    public Sistema getSistema(){
+        return sistema;
+    }
+
     public List<Notificacao> getNots() {
         return notificacoes;
     }
