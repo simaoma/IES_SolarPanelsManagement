@@ -23,12 +23,19 @@ public class AlarmeDetection {
     @Autowired
     private AlarmeRequest alarmeRequest;
 
+    public List<Alarme> aaa(){
+        if (alarmesAtivos != null){
+            return alarmesAtivos;
+        }
+        return null;
+    }
+
     // Método para monitorar a energia produzida e criar/atualizar alarmes
     public void monitorProducedEnergy(Long sistemaId) {
         Sistema sistema = sistemaRepository.findById(sistemaId)
                 .orElseThrow(() -> new RuntimeException("Sistema not found"));
 
-        Double threshold = Double.parseDouble(alarmeRequest.getMin()); // Defina o valor do limiar aqui
+        Double threshold = Double.parseDouble(alarmeRequest.getcondicao()); // Defina o valor do limiar aqui
 
         if (sistema.getProducedEnergy() < threshold) {
             boolean alarmExists = sistema.getAlarmes().stream()

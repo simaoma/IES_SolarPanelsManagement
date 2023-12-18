@@ -37,11 +37,11 @@ public class AlarmeController {
     }
 
 
-    @PostMapping("/api/sistemas/{sistemaId}/new_alarme")
-    public ResponseEntity<String> createAlarmeForSistema(@PathVariable Long sistemaId, @RequestBody AlarmeRequest alarmeRequest) {
+    @PostMapping("/api/sistemas/{sistemaId}/new_alarme_min")
+    public ResponseEntity<String> createAlarmeMinForSistema(@PathVariable Long sistemaId, @RequestBody AlarmeRequest alarmeRequest) {
         try {
             Alarme alarme = new Alarme();
-            alarme.setcondicao(alarmeRequest.getMin());
+            alarme.setcondicao(alarmeRequest.getcondicao());
     
             alarmeService.createAlarmeForSistema(sistemaId, alarme);
             return ResponseEntity.ok("Alarme created successfully!");
@@ -66,10 +66,10 @@ public class AlarmeController {
 
     
     // Devolve alarmes ativos para um sistema
-    @GetMapping("/alarmes/ativos")
+    @GetMapping("/alarmes/ativos/{sistemaId}")
     public ResponseEntity<?> getAtivosAlarmes(@PathVariable Long sistemaId) {
         try {
-            List<Alarme> ativos = alarmeDetection.alarmesAtivos;
+            List<Alarme> ativos = alarmeDetection.aaa();
             alarmeDetection.monitorProducedEnergy(sistemaId);
             return ResponseEntity.ok(ativos);
         } catch (Exception e) {

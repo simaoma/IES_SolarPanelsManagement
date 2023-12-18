@@ -42,7 +42,8 @@ public class SistemaController {
         }
     }
 
-    @GetMapping("api/sistemas/{id}")
+    // info de um sistema
+    @GetMapping("/api/sistemas/{id}")
     public ResponseEntity<?> getInfo(@PathVariable Long id) {
         try {
             Optional<Sistema> sistema = sistemaService.getSisById(id);
