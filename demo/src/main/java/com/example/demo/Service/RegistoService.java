@@ -74,7 +74,6 @@ public class RegistoService {
         List<Registos> regByStartDate = new ArrayList<>();
         Integer[] start = {0,0};
         if( !time.isBlank()){
-            System.out.print(time);
             start = calc_dateToNum(time);
         }        
             
@@ -98,17 +97,13 @@ public class RegistoService {
         List<Registos> regByEndDate = new ArrayList<>();
         Integer[] end = {10197,144};
         if( !(time.isBlank() || time.isEmpty())){
-            System.out.println("time: "+time);
             end = calc_dateToNum(time);
         }  
-
-        System.out.println("end1: "+end[0]+", end2: "+end[1]);    
+   
         Iterator<Registos> iterator = reg_list.iterator();
         while (iterator.hasNext()) {
             Registos reg = iterator.next();
             if(reg.getTime_final() != null){
-                System.out.println(reg.getTime_final());
-                System.out.println(calc_dateToNum(reg.getTime_final()));
                 Integer[] reg_time = calc_dateToNum(reg.getTime_final());
                 if ( reg_time[0] <= end[0]){
                     if (reg_time[1] <= end[1]){
@@ -119,7 +114,6 @@ public class RegistoService {
             }
            
         }
-        System.out.println(regByEndDate);
         return regByEndDate;
     }
 

@@ -50,12 +50,12 @@ public class RegistoController {
         Iterator<Registos> iterator = regEndList.iterator();
         while (iterator.hasNext()) {
             Registos reg = iterator.next();
-            if(reg.getType() == "Prod"){
+            if(reg.getType().equals("Prod")){
                 RegistoRequest reg_req = new RegistoRequest(reg.getEnergia(), reg.getTime_init(), reg.getTime_final(), reg.getType());
                 request_list.add(reg_req);
             }
         }
-
+        System.out.println("prod: "+request_list);
         return  new ResponseEntity<>(request_list,HttpStatus.OK);
     }
 
@@ -71,19 +71,20 @@ public class RegistoController {
         List<Registos> regSisList = registoService.getRegBySis(sis);
         List<Registos> regStartList = registoService.getByStartDate(regSisList, date_start_str);
         List<Registos> regEndList = registoService.getByEndDate(regStartList, date_end_str);
+        System.out.println("data: "+regEndList);
         
         List<RegistoRequest> request_list = new ArrayList<>();
 
         Iterator<Registos> iterator = regEndList.iterator();
         while (iterator.hasNext()) {
             Registos reg = iterator.next();
-            if(reg.getType() == "Cons"){
+            if(reg.getType().equals("Cons")){
                 RegistoRequest reg_req = new RegistoRequest(reg.getEnergia(), reg.getTime_init(), reg.getTime_final(), reg.getType());
                 request_list.add(reg_req);
             }
 
         }
-
+        System.out.println("cons: "+request_list);
         return  new ResponseEntity<>(request_list,HttpStatus.OK);
     }
     
