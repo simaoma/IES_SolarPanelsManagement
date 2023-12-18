@@ -6,8 +6,7 @@ import time
 from math import radians, sin, cos, sqrt, atan2
 import numpy as np
 
-EVENT_CHANCE = 10 # %
-MEDIAN_CONSUMPTION = 23423 # mudar isto
+MEDIAN_CONSUMPTION = 0.21 #consumo media mensal 440 Kwh
 HOURS_DAY = 24
 
 class Simulator():
@@ -97,7 +96,7 @@ class Simulator():
                     if radi == -99.0:
                         energy = 0.0
                     else:
-                        energy = (radi/1000) * (power/1000) # verificar se a formula está correta
+                        energy = round((radi * power)/1000,2) # verificar se a formula está correta
                     
                     if energy != sistem['prod']:
                         msg = {'type': 'production', 'energy': energy, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -105,7 +104,7 @@ class Simulator():
                         sistem['prod'] = energy
 
                     if consum_bool:
-                        consum = MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY))
+                        consum = round(MEDIAN_CONSUMPTION * (1 + self.generate_consumption_pattern(HOURS_DAY)),2)
                         if consum != sistem['cons']:
                             msg = {'type': 'consumption', 'energy': consum, 'sistemId': sisId, 'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                             messages.append(msg)

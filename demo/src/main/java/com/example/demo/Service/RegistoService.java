@@ -1,5 +1,9 @@
 package com.example.demo.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,5 +65,87 @@ public class RegistoService {
         Optional<Registos> optionalReg = registoRepository.findById(sisId);
         return optionalReg.get();
     }
+
+    public List<Registos> getRegBySis(Optional<Sistema> sis){
+        List<Registos> reg_list = registoRepository.findBySistema(sis);
+        return reg_list;
+
+    }
+
+    public List<Registos> getByStartDate(List<Registos> reg_list,String time){
+        List<Registos> regByStartDate = new ArrayList<>();
+        Integer[] start = {0,0};
+        if( !time.isBlank()){
+            System.out.print(time);
+            start = calc_dateToNum(time);
+        }        
+            
+        Iterator<Registos> iterator = reg_list.iterator();
+        while (iterator.hasNext()) {
+            Registos reg = iterator.next();
+            Integer [] reg_time = calc_dateToNum(reg.getTime_init());
+            if ( reg_time[0] >= start[0]){
+                if (reg_time[1] >= start[1]){
+                    regByStartDate.add(reg);
+                }
+               
+            }
+        }
+        return regByStartDate;
+    }
+
+    public List<Registos> getByEndDate(List<Registos> reg_list,String time){
+        
+
+        List<Registos> regByEndDate = new ArrayList<>();
+        Integer[] end = {10197,144};
+        if( !(time.isBlank() || time.isEmpty())){
+            System.out.println("time: "+time);
+            end = calc_dateToNum(time);
+        }  
+
+        System.out.println("end1: "+end[0]+", end2: "+end[1]);    
+        Iterator<Registos> iterator = reg_list.iterator();
+        while (iterator.hasNext()) {
+            Registos reg = iterator.next();
+            if(reg.getTime_final() != null){
+                System.out.println(reg.getTime_final());
+                System.out.println(calc_dateToNum(reg.getTime_final()));
+                Integer[] reg_time = calc_dateToNum(reg.getTime_final());
+                if ( reg_time[0] <= end[0]){
+                    if (reg_time[1] <= end[1]){
+                        regByEndDate.add(reg);
+                    }
+                    
+                }
+            }
+           
+        }
+        System.out.println(regByEndDate);
+        return regByEndDate;
+    }
+
+    public Integer[] calc_dateToNum(String date) { 
+        // Lembrar que date é no formato: "yyyy-mm-dd hh:mm:ss"
+        
+        String[] dateTimeComponents = date.split(" ");
+        String[] dateComponents = dateTimeComponents[0].split("-");
+        String[] timeComponents = dateTimeComponents[1].split(":");
+    
+        int year = Integer.parseInt(dateComponents[0]);
+        int month = Integer.parseInt(dateComponents[1]);
+        int day = Integer.parseInt(dateComponents[2]);
+        int hour = Integer.parseInt(timeComponents[0]);
+        int minute = Integer.parseInt(timeComponents[1]);
+        int second = Integer.parseInt(timeComponents[2]);
+    
+        int dateSum = year + month + day;
+        int timeSum = hour + minute + second;
+    
+        return new Integer[]{dateSum, timeSum};
+    }
+    
+
+    
 
 }
