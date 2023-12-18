@@ -35,7 +35,7 @@ const Startup = () => {
 
       if (response.ok) {
         // Redirecionar para a página de addresses após adicionar um novo sistema
-        window.location.href = `/addresses/${userId}`;
+        window.location.href = `/`;
       } else {
         throw new Error('Registration failed');
       }

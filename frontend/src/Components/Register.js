@@ -42,7 +42,7 @@ const Register = () => {
         // Registro bem-sucedido, agora faça o login automaticamente
         const userId = await login({ email, password });
         // Redirecione ou faça qualquer outra ação necessária após o login
-        window.location.href = `/startup/${userId}`;
+        window.location.href = `/`;
       } else {
         throw new Error('Registration failed');
       }

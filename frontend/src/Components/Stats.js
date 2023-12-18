@@ -1,3 +1,4 @@
+import { subMinutes, format } from 'date-fns';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,12 +35,14 @@ import {
         const [morada, setMorada] = useState('');
         const [capacidade, setCapacidade] = useState(0);
         const [view, setView] = useState('live'); // 'history' or 'live'
+        const [pdata, setPdata] = useState([]); // Mudei para useState([]) porque o valor inicial é um array vazio
+        
 
 
         // Fetch produced energy for today
         const fetchProducedToday = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/sistemas/${sistemaId}/consumed-energy`);
+                const response = await fetch(`http://localhost:8080/sistemas/${sistemaId}/produced-energy`);
                 if (response.headers.get("Content-Type").includes("application/json")) {
                     const data = await response.json();
                     setProducedToday(data);
@@ -51,6 +54,32 @@ import {
             }
         };
 
+        const fetchData = async () => {
+            try {
+                // Obtém a data atual e a data 5 minutos atrás
+                const currentDate = new Date();
+                const startDate = subMinutes(currentDate, 5);
+            
+                // Formata as datas no formato YYYY-MM-DD HH:mm:ss
+                const formattedStartDate = format(startDate, 'yyyy-MM-dd HH:mm:ss');
+                const formattedEndDate = format(currentDate, 'yyyy-MM-dd HH:mm:ss');
+            
+                const prodResponse = await fetch(`http://localhost:8080/api/sistema/${sistemaId}/historico/prod/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
+                const prodData = await prodResponse.json();
+                const pdataprodmap = prodData.map(item => ({ produzido: item.energy }));
+    
+                const consResponse = await fetch(`http://localhost:8080/api/sistema/${sistemaId}/historico/cons/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
+                const consData = await consResponse.json();
+                const pdataconsmap = consData.map(item => ({ consumido: item.energy }));
+    
+                // Atualiza o estado pdata incluindo os dados de produção e consumo
+                setPdata([...pdataprodmap, ...pdataconsmap]);
+    
+                // Restante do código permanece inalterado...
+            } catch (error) {
+                console.error('Error fetching historical data:', error);
+            }
+        };
 
         // Fetch sistema info
         const fetchSisInfo = async () => {
@@ -72,6 +101,7 @@ import {
             // Fetch data initially
             fetchProducedToday();
             fetchSisInfo();
+            fetchData();
     
             // Set interval to fetch data periodically
             const interval = setInterval(() => {
@@ -107,40 +137,6 @@ import {
         },
       }));
 
-
-      const pdata = [
-        {
-            name: 'MongoDb',
-            student: 11,
-            fees: 120
-        },
-        {
-            name: 'Javascript',
-            student: 15,
-            fees: 12
-        },
-        {
-            name: 'PHP',
-            student: 5,
-            fees: 10
-        },
-        {
-            name: 'Java',
-            student: 10,
-            fees: 5
-        },
-        {
-            name: 'C#',
-            student: 9,
-            fees: 4
-        },
-        {
-            name: 'C++',
-            student: 10,
-            fees: 8
-        },
-    ];
-    
     return (
       <div className="stats-container">
         <MDBCard className='out-card'>
@@ -201,7 +197,7 @@ import {
                         <MDBIcon size="3x" icon="coins" style={{marginBottom: '10px'}}/>
                         <p></p>
                         <p>Receita Hoje</p>
-                        <p>{(producedToday*0.1).toFixed(2)} €</p>
+                        <p>{(producedToday*0.14).toFixed(2)} €</p>
                     </MDBCard>
                     <MDBCard className='div12'>
                         <MDBIcon size="3x" icon="bolt" style={{marginBottom: '10px'}}/>
@@ -296,11 +292,10 @@ import {
                             <ResponsiveContainer width="100%" aspect={3}>
                             <LineChart data={pdata} margin={{ right: 300 }}>
                                 <CartesianGrid />
-                                <XAxis dataKey="name" interval={'preserveStartEnd'} />
                                 <YAxis />
                                 <Legend />
-                                <Line dataKey="student" stroke="white" />
-                                <Line dataKey="fees" stroke="red" />
+                                <Line dataKey="produzido" stroke="white" />
+                                <Line dataKey="consumido" stroke="orange" />
                             </LineChart>
                             </ResponsiveContainer>
                         </div>
