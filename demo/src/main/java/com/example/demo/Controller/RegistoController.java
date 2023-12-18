@@ -18,7 +18,6 @@ import com.example.demo.Entity.Sistema;
 import com.example.demo.Service.RegistoService;
 import com.example.demo.Service.SistemaService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 

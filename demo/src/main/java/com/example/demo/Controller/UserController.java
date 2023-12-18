@@ -50,6 +50,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    // info de um user
     @GetMapping("/api/users/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         try {

@@ -37,11 +37,11 @@ public class AlarmeController {
     }
 
 
-    @PostMapping("/api/sistemas/{sistemaId}/new_alarme")
-    public ResponseEntity<String> createAlarmeForSistema(@PathVariable Long sistemaId, @RequestBody AlarmeRequest alarmeRequest) {
+    @PostMapping("/api/sistemas/{sistemaId}/new_alarme_min")
+    public ResponseEntity<String> createAlarmeMinForSistema(@PathVariable Long sistemaId, @RequestBody AlarmeRequest alarmeRequest) {
         try {
             Alarme alarme = new Alarme();
-            alarme.setcondicao(alarmeRequest.getCondicao());
+            alarme.setcondicao(alarmeRequest.getcondicao());
     
             alarmeService.createAlarmeForSistema(sistemaId, alarme);
             return ResponseEntity.ok("Alarme created successfully!");
@@ -51,10 +51,12 @@ public class AlarmeController {
         }
     }
 
-    @GetMapping("/alarmes")
-        public ResponseEntity<?> getAllAlarmes() {
+
+    // Devolve todos os alarmes existentes
+    @GetMapping("/alarmes/{sistemaId}")
+        public ResponseEntity<?> getAllAlarmes(@PathVariable Long sistemaId) {
             try {
-                List<Alarme> alarmes = alarmeService.getAllAlarmes();
+                List<Alarme> alarmes = alarmeService.getAllAlarmes(sistemaId);
                 return ResponseEntity.ok(alarmes);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -62,10 +64,13 @@ public class AlarmeController {
             }
         }
 
-    @GetMapping("/alarmes/ativos")
-    public ResponseEntity<?> getAtivosAlarmes() {
+    
+    // Devolve alarmes ativos para um sistema
+    @GetMapping("/alarmes/ativos/{sistemaId}")
+    public ResponseEntity<?> getAtivosAlarmes(@PathVariable Long sistemaId) {
         try {
-            List<Alarme> ativos = alarmeDetection.alarmesAtivos;
+            List<Alarme> ativos = alarmeDetection.aaa();
+            alarmeDetection.monitorProducedEnergy(sistemaId);
             return ResponseEntity.ok(ativos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

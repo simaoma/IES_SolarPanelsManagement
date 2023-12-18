@@ -22,9 +22,6 @@ public class AlarmeService {
 
     @Autowired
     private SistemaRepository sistemaRepository;
-
-    private Sistema sistema;
-
     
 
     public List<Notificacao> getNotsForAlarme(Long id_alarme) {
@@ -50,7 +47,8 @@ public class AlarmeService {
     }
 
 
-    public List<Alarme> getAllAlarmes() {
+    public List<Alarme> getAllAlarmes(Long sistemaId) {
+        Sistema sistema = sistemaRepository.findById(sistemaId).orElseThrow(() -> new RuntimeException("Sistema not found"));
         return sistema.getAlarmes();
     }
 }
