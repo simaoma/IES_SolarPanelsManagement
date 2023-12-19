@@ -15,11 +15,14 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate from react
 import { useAuth } from '../Context/AuthContext';
 import '../Css/Login.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 
 
 
 const Login = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { login } = useAuth(); // Move the destructuring inside the component
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,6 +53,7 @@ const Login = () => {
   };
   
   return (
+    console.log(baseUrl),
     <MDBContainer className="login-container">
       <MDBCard className='card'>
         <MDBRow className='g-0'>

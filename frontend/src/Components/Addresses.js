@@ -5,15 +5,18 @@ import axios from "axios";
 import { useParams } from "react-router-dom"; // Importe o hook useParams
 import '../Css/Addresses.css';
 import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const Addresses = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { userId } = useParams(); // Obtenha o userId da URL
   const [addresses, setAddresses] = useState([]);
 
   useEffect(() => {
     const fetchAddresses = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/sistemas`);
+            const response = await fetch(`${baseUrl}/api/users/${userId}/sistemas`);
 
             if (response.headers.get("Content-Type").includes("application/json")) {
             const data = await response.json();
@@ -37,6 +40,7 @@ const Addresses = () => {
   };
 
   return (
+    console.log(baseUrl),
     <div>
       <h2 style={{marginBottom: "5rem"}}> .</h2>
       <h2 className="all-systems-tittle" style={{marginTop: "5rem"}}> All your Systems</h2>
