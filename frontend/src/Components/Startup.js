@@ -12,8 +12,11 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../Css/Startup.css';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const Startup = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { userId } = useParams();
   const [morada, setAddress] = useState('');
   const [potencia, setPower] = useState('');
@@ -24,7 +27,7 @@ const Startup = () => {
 
     try {
       console.log(userId);
-      const response = await fetch(`http://localhost:8080/api/users/${userId}/new_sistema`, {
+      const response = await fetch(`${baseUrl}/api/users/${userId}/new_sistema`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

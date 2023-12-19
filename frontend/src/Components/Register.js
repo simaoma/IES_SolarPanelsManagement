@@ -13,8 +13,11 @@ import React, { useState } from 'react';
 import '../Css/Register.css';
 import { useAuth } from '../Context/AuthContext';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const Register = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { login } = useAuth();
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
@@ -27,7 +30,7 @@ const Register = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/register', {
+      const response = await fetch(`${baseUrl}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

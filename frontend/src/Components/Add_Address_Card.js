@@ -3,8 +3,11 @@ import React from "react";
 import '../Css/Add_Address_Card.css';
 import { Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const AddAddressCard = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { isLoggedin, user, logout } = useAuth();
   return (
     <MDBContainer className="add-address-card-container">

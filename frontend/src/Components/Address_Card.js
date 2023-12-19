@@ -3,8 +3,11 @@ import React from "react";
 import '../Css/Address_Card.css';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const AddressCard = ({ sistema }) => {
+  const { baseUrl } = useContext(UrlContext);
   return (
       <MDBCard className="card-address">
       <Link to={`/stats/${sistema.id}`}>

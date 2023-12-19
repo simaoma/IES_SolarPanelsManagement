@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useAuth } from "../Context/AuthContext";
 import "../Css/Navbar.css";
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const Navbar = () => {
+  const { baseUrl } = useContext(UrlContext);
   const { isLoggedin, user, logout } = useAuth();
 
   useEffect(() => {
