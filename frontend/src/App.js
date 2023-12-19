@@ -16,7 +16,7 @@ import { useAuth } from './Context/AuthContext';
 export const UrlContext = createContext();
 
 function App() {
-  const [baseUrl, setBaseUrl] = useState('http://localhost:8080');
+  const [baseUrl, setBaseUrl] = useState('http://deti-ies-06.ua.pt:5001');
 
   return (
     <UrlContext.Provider value={{ baseUrl }}>
