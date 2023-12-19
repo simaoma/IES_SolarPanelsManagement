@@ -66,7 +66,7 @@ public class UserController {
 
     // Devolve sistemas de um user
     @GetMapping("/api/users/{userId}/sistemas")
-    public ResponseEntity<?> getSistemasByUserId(@PathVariable Long userId) {
+    public ResponseEntity<?> getSistemasByUserId(@PathVariable("userId") Long userId) {
         try {
             Optional<User> user = userService.getUserById(userId);
             if (user.isPresent()) {

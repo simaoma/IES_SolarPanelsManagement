@@ -2,6 +2,9 @@ package com.example.demo.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +25,7 @@ public class Sistema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_sis;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id") // This column will hold the foreign key to User
     private User user;
@@ -41,9 +45,12 @@ public class Sistema {
     @Column(name = "consumed_energy")
     private Double consumedEnergy = 0.0;
 
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Alarme> alarmes;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "sistema", cascade = CascadeType.ALL)
     private List<Registos> registos;
 
