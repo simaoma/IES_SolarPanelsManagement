@@ -60,7 +60,7 @@ services:
     - SERVER_PORT=8080
     - SPRING_PROFILES_ACTIVE=prod
     - SPRING_APPLICATION_NAME=solarlink
-    - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/lsolarlinkdb
+    - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/solarlinkdb
     - SPRING_DATASOURCE_USERNAME=user_solar_link
     - SPRING_DATASOURCE_PASSWORD=user1
     - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
