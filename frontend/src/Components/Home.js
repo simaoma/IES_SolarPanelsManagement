@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 const Home = () => {
+  const { baseUrl } = useContext(UrlContext);
   const navigate = useNavigate();
   const { user, isLoggedin } = useAuth();
 

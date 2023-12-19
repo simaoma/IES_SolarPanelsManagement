@@ -24,7 +24,7 @@ public class AlarmeController {
     @Autowired
     private AlarmeDetection alarmeDetection;
 
-    @GetMapping("/alarmes/{id}/notificacoes")
+    @GetMapping("/alarmes/{id_alarme}/notificacoes")
     public ResponseEntity<?> getNotForAlarme(@PathVariable Long id_alarme) {
         try {
             List<Notificacao> nots = alarmeService.getNotsForAlarme(id_alarme);

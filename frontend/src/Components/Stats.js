@@ -25,9 +25,12 @@ import {
     YAxis,
     CartesianGrid
 } from 'recharts';
+import { useContext } from "react";
+import { UrlContext } from "../App";
 
 
     const Stats = () => {
+        const { baseUrl } = useContext(UrlContext);
         const { isLoggedin } = useAuth(); // Retrieve authentication status from the context
         const [producedToday, setProducedToday] = useState(0);
         const [totalProduced, setTotalProduced] = useState(0);
@@ -36,13 +39,49 @@ import {
         const [capacidade, setCapacidade] = useState(0);
         const [view, setView] = useState('live'); // 'history' or 'live'
         const [pdata, setPdata] = useState([]); // Mudei para useState([]) porque o valor inicial é um array vazio
+        const [alarms, setAlarms] = useState([]); // Adicione o estado para os alarmes
+        const [activeAlarms, setActiveAlarms] = useState([]); // Adicione o estado para os alarmes ativos
+
+
+
+        
+        // Função para buscar os alarmes
+        const fetchAlarms = async () => {
+            try {
+            const response = await fetch(`${baseUrl}/alarmes/${sistemaId}`);
+            if (response.ok) {
+                const alarmData = await response.json();
+                setAlarms(alarmData);
+            } else {
+                console.error('Failed to fetch alarms:', response.statusText);
+            }
+            } catch (error) {
+            console.error('Error fetching alarms:', error);
+            }
+        };
+
+
+            // Function to fetch active alarms
+        const fetchActiveAlarms = async () => {
+            try {
+                const response = await fetch(`${baseUrl}/alarmes/ativos/${sistemaId}`);
+                if (response.ok) {
+                    const activeAlarmData = await response.json();
+                    setAlarms(activeAlarmData);
+                } else {
+                    console.error('Failed to fetch active alarms:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching active alarms:', error);
+            }
+        };
         
 
 
         // Fetch produced energy for today
         const fetchProducedToday = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/sistemas/${sistemaId}/produced-energy`);
+                const response = await fetch(`${baseUrl}/sistemas/${sistemaId}/produced-energy`);
                 if (response.headers.get("Content-Type").includes("application/json")) {
                     const data = await response.json();
                     setProducedToday(data);
@@ -64,11 +103,11 @@ import {
                 const formattedStartDate = format(startDate, 'yyyy-MM-dd HH:mm:ss');
                 const formattedEndDate = format(currentDate, 'yyyy-MM-dd HH:mm:ss');
             
-                const prodResponse = await fetch(`http://localhost:8080/api/sistema/${sistemaId}/historico/prod/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
+                const prodResponse = await fetch(`${baseUrl}/api/sistema/${sistemaId}/historico/prod/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
                 const prodData = await prodResponse.json();
                 const pdataprodmap = prodData.map(item => ({ produzido: item.energy }));
     
-                const consResponse = await fetch(`http://localhost:8080/api/sistema/${sistemaId}/historico/cons/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
+                const consResponse = await fetch(`${baseUrl}/api/sistema/${sistemaId}/historico/cons/start_date=${formattedStartDate}/end_date=${formattedEndDate}`);
                 const consData = await consResponse.json();
                 const pdataconsmap = consData.map(item => ({ consumido: item.energy }));
     
@@ -84,7 +123,7 @@ import {
         // Fetch sistema info
         const fetchSisInfo = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/sistemas/${sistemaId}`);
+                const response = await fetch(`${baseUrl}/api/sistemas/${sistemaId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setMorada(data.morada);
@@ -102,6 +141,8 @@ import {
             fetchProducedToday();
             fetchSisInfo();
             fetchData();
+            fetchAlarms();
+            fetchActiveAlarms();
     
             // Set interval to fetch data periodically
             const interval = setInterval(() => {
@@ -138,25 +179,33 @@ import {
       }));
 
     return (
+        console.log(baseUrl),
       <div className="stats-container">
         <MDBCard className='out-card'>
             <div className='parent'>
-                <MDBCard className='div1'>
-                    <MDBCardImage src={solarpanelImage} className='div1'/>
+                <MDBCard className='div1' style={{ backgroundImage: `url(${solarpanelImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}></div>
+                    <div style={{ zIndex: 1, position: 'relative', padding: '16px' }}>
+                        {morada && <p>Morada: {morada}</p>}
+                        {capacidade && <p>Potência: {capacidade} kW</p>}
+                    </div>   
                 </MDBCard>
                 <MDBCard className='div2'>
-                    <p>Morada: {morada}</p>
-                    <p>Potência: {capacidade} kW</p>    
-                </MDBCard>
-                <MDBCard className='div3'>
-                    <p style={{ fontSize: '25px'}}>Alarmes:</p>
-                    <p>250 kW</p>
-                    <p>300 kW</p>
+                    <p style={{ fontSize: '25px'}}>Alarms:</p>
+                    <ul>
+                        {alarms.map((alarm) => (
+                        <li key={alarm.id}>{alarm.condicao}</li>
+                        ))}
+                    </ul>
                     <ButtonGroup color="inherit" style={{ marginLeft: '16rem', marginBottom: '1rem' }}>
-                        <Link to="/addalarm" style={{ textDecoration: 'none' }}>
+                        <Link to={`/addalarm/${sistemaId}`} style={{ textDecoration: 'none' }}>
                             <Button style={{backgroundColor: '#f2af13' }}>Add Alarm</Button>
                         </Link>
                     </ButtonGroup>
+                </MDBCard>
+                <MDBCard className='div3'>
+                    <p style={{ fontSize: '25px'}}>Active Alarms:</p>
+                    AQUI SAO OS ALARMES ATIVOS
                 </MDBCard>
                 <MDBCard className='div4'>
                     <div className='div41'>

@@ -1,9 +1,11 @@
 // AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { UrlContext } from "../App";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { baseUrl } = useContext(UrlContext);
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -12,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUserById = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/${userId}`);
+        const response = await fetch(`${baseUrl}/api/users/${userId}`);
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
 const login = async (loginData) => {
   try {
-    const response = await fetch('http://localhost:8080/login', {
+    const response = await fetch(`${baseUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

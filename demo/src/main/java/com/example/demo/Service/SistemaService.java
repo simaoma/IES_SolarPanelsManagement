@@ -179,5 +179,6 @@ public class SistemaService {
         // Add the sistema to the user's list of sistemas
         user.getSistemas().add(sistema);
         userRepository.save(user);
+        sender.addSistema(sistema);
     }
 }
