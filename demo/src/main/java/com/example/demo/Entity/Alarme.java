@@ -30,7 +30,7 @@ public class Alarme {
     @JoinColumn(name = "id_sis")
     private Sistema sistema;
 
-    @Column(name = "condicao", nullable = false, unique = true)
+    @Column(name = "condicao", nullable = false, unique = false)
     private String condicao;
 
     @JsonManagedReference

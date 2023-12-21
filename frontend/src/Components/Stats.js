@@ -1,32 +1,22 @@
-import { subMinutes, subHours, subDays, subMonths, subYears, format, parse } from 'date-fns';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { format, subHours, subMonths, subYears } from 'date-fns';
 import {
     MDBCard,
     MDBCardImage,
     MDBIcon,
 } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactSpeedometer from "react-d3-speedometer";
-import { useParams } from 'react-router-dom';
-import { Cell, Legend, Pie, PieChart } from 'recharts';
+import { Link, useParams } from 'react-router-dom';
+import { CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, YAxis } from 'recharts';
+import { UrlContext } from "../App";
 import { useAuth } from '../Context/AuthContext'; // Import useAuth from your authentication context
 import '../Css/Stats.css';
 import energyRealTime from '../Images/energy.png';
 import solarpanelImage from '../Images/solarpanel-login.jpeg';
-import {
-    LineChart,
-    ResponsiveContainer,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid
-} from 'recharts';
-import { useContext } from "react";
-import { UrlContext } from "../App";
 
 
     const Stats = () => {
@@ -324,7 +314,7 @@ import { UrlContext } from "../App";
                             ))}
                         </ul>
                     )}
-                    <ButtonGroup color="inherit" style={{ marginLeft: '16rem', marginBottom: '1rem' }}>
+                    <ButtonGroup color="inherit" style={{ marginLeft: '6rem', marginBottom: '1rem' }}>
                         <Link to={`/addalarm/${sistemaId}`} style={{ textDecoration: 'none' }}>
                             <Button style={{backgroundColor: '#f2af13' }}>Add Alarm</Button>
                         </Link>
