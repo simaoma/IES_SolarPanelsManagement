@@ -26,10 +26,9 @@ CREATE TABLE IF NOT EXISTS sistemas (
 CREATE TABLE IF NOT EXISTS registos (
     id_reg bigint AUTO_INCREMENT PRIMARY KEY,
     energia double,
-    morada varchar(255),
     time_stamp_final varchar(255),
     time_stamp_inicial varchar(255),
-    tipo varbinary(255),
+    tipo varchar(255),
     id_sis bigint
 );
 

@@ -69,6 +69,7 @@ services:
 
   reactclient:
     build: ./frontend
+    image: reactclient
     container_name: reactclient
     ports:
       - 3001:3000
@@ -76,4 +77,4 @@ services:
     depends_on:
       - web
     restart: unless-stopped
-    image: SolarLink-frontend
+    
