@@ -40,3 +40,5 @@ To start Frontend do in a terminal at the frontend package:
 
 `npm start`
 
+## **API Documentation**
+https://documenter.getpostman.com/view/30747583/2s9YkrbfXF
