@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS registos (
     morada varchar(255),
     time_stamp_final varchar(255),
     time_stamp_inicial varchar(255),
-    tipo varbinary(255),
+    tipo varchar(255),
     id_sis bigint
 );
 
