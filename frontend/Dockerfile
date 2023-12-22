@@ -16,11 +16,5 @@ RUN npm install react-scripts@latest -g --silent
 # add app
 COPY . ./
 
-# create the 'src' directory
-RUN mkdir -p /app/src
-
-# create a symlink for react-refresh/runtime.js
-RUN ln -s /app/node_modules/react-refresh/runtime.js /app/src/node_modules/react-refresh/runtime.js
-
 # start app
 CMD ["npm", "start"]
