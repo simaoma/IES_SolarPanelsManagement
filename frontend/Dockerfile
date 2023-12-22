@@ -16,7 +16,5 @@ RUN npm install react-scripts@latest -g --silent
 # add app
 COPY . ./
 
-RUN ln -s /app/node_modules/react-refresh/runtime.js /app/src
-
 # start app
 CMD ["npm", "start"]
