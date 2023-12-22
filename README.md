@@ -20,25 +20,29 @@ In this repository you will find our project SolarLink that was made in the cont
 In it, we propose, conceptualize, and implement a solution for a Household Solar grid management system.
 
 
-## **HOW TO RUN** 
+## **Deploy**
+Unfortunately due to an error, we were not able to deploy the frontend part of the project.
 
-To start the Docker container do in a terminal:
+So to run the application you need to download the frontend folder and do as the 'README.md', that is inside that folder, says to be able to try our application. 
 
-`docker pull mysql`
+<br>
 
-`docker run --name solar_panels -e MYSQL_ROOT_PASSWORD=simao2002 -d mysql:latest`
+## **Containers & Ports**
+To access the other services individualy you can use: 192.168.160.214:port.
+Replacing port with the numbers below.
 
-Before start Maven Spring-boot, in the demo/src/resources package change the application.properties password to your own root mysql root password.
 
-`spring.datasource.password={{YOUR PASSWORD}}`
+Backend (Spring API)
+- Port: 5001
 
-To start Maven Spring-boot do in a terminal at the demo package:
+Datagen (Python Script)
 
-`mvn spring-boot:run`
+Message Broker (RabbitMQ)
+- HTTP Port: 15672
+- AMQP Port: 5672
 
-To start Frontend do in a terminal at the frontend package:
-
-`npm start`
+Database
+- Port: 3306
 
 ## **API Documentation**
 https://documenter.getpostman.com/view/30747583/2s9YkrbfXF
